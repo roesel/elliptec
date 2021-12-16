@@ -26,14 +26,17 @@
 
 ThorLabs Elliptec devices offer a neat way to quickly set up automated workflows in optical systems. This project aims to provide a simple and quick way to control them directly from Python. It uses the [pyserial](https://github.com/pyserial/pyserial) library and is inspired by the [TL-rotation-control](https://github.com/cdbaird/TL-rotation-control) project by [Chris Baird](https://github.com/cdbaird).
 
-DISCLAIMER: **This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
+**This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
 
-## What works and what doesn't
+## List of supported devices
 Currently (somewhat) supported devices:
 * Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - typically used for polarization state generators
 * Dual-Position Slider (ELL6) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - typically used as a shutter
 * Four-Position Slider (ELL9) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - typically used as a filter wheel
 
+As of right now, I do not have access to any other devices from the Elliptec family. If you are interested in controlling a device that is not on this list, feel free to reach out to me.
+
+## What works and what doesn't
 What works:
 * basic movement
 * getting information about the device 
@@ -46,8 +49,8 @@ What is missing:
 * searching for optimal motor frequencies
 * (re)setting permanent parameters (home positions, motor frequencies)
 * cleaning and optimization procedures
+* automated discovery of devices
+* adding devices by serial number
 
 ## Support
 If you are going to use this code in any way, **please let me know** via email/twitter/issues, you can find my contact info on [my website](https://david.roesel.cz/en/). I am working on this project in my spare time and need every piece of encouragement I can get! ;)
-
-
