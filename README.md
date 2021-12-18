@@ -10,7 +10,7 @@
   <p align="center">
     Simple control of Thorlabs Elliptec devices.
     <br />
-    <a href="https://github.com/roesel/elliptec"><strong>No docs yet »</strong></a>
+    <a href="https://elliptec.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://github.com/roesel/elliptec">Get started</a>
