@@ -28,6 +28,45 @@ ThorLabs Elliptec devices offer a neat way to quickly set up automated workflows
 
 **This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
 
+## Quickstart
+A basic example, which shows how to use a shutter:
+```python
+import elliptec
+sh = elliptec.Shutter('COM3')
+# Get information about the device
+info = sh.get('info')
+# Home the rotator before usage
+ro.home()
+# Open shutter, acquire, and close again
+sh.open()
+# ... acquire or perform other tasks
+sh.close()
+```
+
+An example using a rotator to collect multiple polarizations:
+```python
+import elliptec
+ro = elliptec.Rotator('COM3')
+# Home the rotator before usage
+ro.home()
+# Loop over a list of angles and acquire for each
+for angle in [0, 45, 90, 135]:
+  ro.set_angle(angle)
+  # ... acquire or perform other tasks
+```
+
+An example using a four-positional slider:
+```python
+import elliptec
+sl = elliptec.Slider('COM3')
+# Home the slider before usage
+sl.home()
+# Move slider to position 3
+sl.set_slot(3)
+# Move slider forward (to position 4)
+sl.move('forward')
+```
+
 ## List of supported devices
 Currently (somewhat) supported devices:
 * Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - typically used for polarization state generators
