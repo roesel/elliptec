@@ -91,7 +91,7 @@ What is missing:
 * (re)setting permanent parameters (home positions, motor frequencies)
 * cleaning and optimization procedures
 
-Some of the missing functionality can be performed using the official [Elliptec Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL).
+Some of the missing functionality can be performed using the official [Elliptec&trade; Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL).
 
 ## Support
 If you are going to use this code in any way, **please let me know** via [email](mailto:roesel@gmail.com)/[twitter](https://twitter.com/DavidRoesel)/[issues](https://github.com/roesel/elliptec/issues) or find my contact info on [my website](https://david.roesel.cz/en/). I am working on this project in my spare time and need every piece of encouragement I can get! ;)
