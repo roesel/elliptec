@@ -8,7 +8,7 @@
   <h3 align="center">Elliptec</h3>
 
   <p align="center">
-    Simple control of Thorlabs Elliptec devices.
+    Simple control of Thorlabs Elliptec&trade; devices.
     <br />
     <a href="https://elliptec.readthedocs.io/en/latest/"><strong>Explore the docs »</strong></a>
     <br />
@@ -24,7 +24,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-ThorLabs Elliptec devices offer a neat way to quickly set up automated workflows in optical systems. This project aims to provide a simple and quick way to control them directly from Python. It uses the [pyserial](https://github.com/pyserial/pyserial) library and is inspired by the [TL-rotation-control](https://github.com/cdbaird/TL-rotation-control) project by [Chris Baird](https://github.com/cdbaird). The end goal of the project is to reproduce the entire functionality of the official [Elliptec Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL). 
+ThorLabs Elliptec&trade; devices offer a neat way to quickly set up automated workflows in optical systems. This project aims to provide a simple and quick way to control them directly from Python. It uses the [pyserial](https://github.com/pyserial/pyserial) library and is inspired by the [TL-rotation-control](https://github.com/cdbaird/TL-rotation-control) project by [Chris Baird](https://github.com/cdbaird). The end goal of the project is to reproduce the entire functionality of the official [Elliptec&trade; Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL). 
 
 **This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
 
@@ -73,7 +73,7 @@ Currently (somewhat) supported devices:
 * Dual-Position Slider (ELL6) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - typically used as a shutter
 * Four-Position Slider (ELL9) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - typically used as a filter wheel
 
-As of right now, I do not have access to any other devices from the Elliptec family. If you are interested in controlling a device that is not on this list, feel free to reach out to me.
+As of right now, I do not have access to any other devices from the Elliptec&trade; family. If you are interested in controlling a device that is not on this list, feel free to reach out to me.
 
 ## What works and what doesn't
 What works:
