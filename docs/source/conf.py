@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.abspath('..'))
 # -- Project information -----------------------------------------------------
 
 project = 'elliptec'
-copyright = '2021, David Roesel'
+copyright = '2022, David Roesel'
 author = 'David Roesel'
 
 # The full version, including alpha/beta/rc tags
