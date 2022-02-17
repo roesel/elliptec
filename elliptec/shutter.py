@@ -7,9 +7,9 @@ class Shutter(Motor):
     
     # TODO: After jogging in the same direction twice in a row, serial communication acts like a black hole for <1.5 s
 
-    def __init__(self, port, debug=True, inverted=False):
+    def __init__(self, port, address='0', debug=True, inverted=False):
         # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
-        super().__init__(port, debug=debug)
+        super().__init__(port, address=address, debug=debug)
         self.inverted = inverted
     
     # Functions specific to Shutter

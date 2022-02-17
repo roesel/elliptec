@@ -6,7 +6,9 @@ import sys
 
 class Motor():
 
-    def __init__(self, port, baudrate=9600, bytesize=8, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=2, write_timeout=0.5, debug=True):
+    # TODO: Figure out how to handle multiple devices on a BUS
+    #       1 port (locked), but multiple Motor objects?
+    def __init__(self, port, address='0', baudrate=9600, bytesize=8, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=2, write_timeout=0.5, debug=True):
         try:
             self.s = serial.Serial(port, baudrate=baudrate, bytesize=bytesize, parity=parity, stopbits=stopbits, timeout=timeout, write_timeout=write_timeout)
         except serial.SerialException:
@@ -14,6 +16,8 @@ class Motor():
             # TODO: nicer/more logical shutdown (this kills the entire app?)
             sys.exit()
 
+        # self.address is kept as a 0-F string and encoded in send_instruction()
+        self.address = address
         self.last_position = None
         self.debug = debug
         if self.s.is_open:
@@ -31,9 +35,9 @@ class Motor():
         self.serial_no = self.info['Serial No.']
         self.motor_type = self.info['Motor Type']
         
-    def send_instruction(self, address, instruction, message=None):
+    def send_instruction(self, instruction, message=None):
         # Encode inputs
-        addr = address.encode('utf-8')
+        addr = self.address.encode('utf-8')
         inst = instruction #.encode('utf-8')
         # Compose command
         command = addr + inst
@@ -76,7 +80,7 @@ class Motor():
         return status
             
     # Action functions
-    def move(self, req='home', data='', addr='0'):
+    def move(self, req='home', data=''):
         ''' Expects:
             addr - Address of device (0-F)
             req - Name of request
@@ -94,12 +98,12 @@ class Motor():
         if instruction == b'ho':
             instruction = b'ho0'
             
-        status = self.send_instruction(addr, instruction, message=data)
+        status = self.send_instruction(instruction, message=data)
         if self.debug:
             move_check(status) # This just prints stuff... # TODO: make it return success as boolean?
         return status
 
-    def get(self, req='status', data='', addr='0'):
+    def get(self, req='status', data=''):
         # Try to translate command to instruction
         if req in get_:
             instruction = get_[req]
@@ -107,13 +111,13 @@ class Motor():
             print('Invalid Command: %s' % req)
             return None
 
-        status = self.send_instruction(addr, instruction, message=data)
+        status = self.send_instruction(instruction, message=data)
         if self.debug:
             error_check(status) # This just prints stuff... # TODO: make it return success as boolean?
 
         return status
 
-    def set(self, req='', data='', addr='0'):
+    def set(self, req='', data=''):
         # Try to translate command to instruction
         if req in set_:
             instruction = set_[req]
@@ -121,7 +125,7 @@ class Motor():
             print('Invalid Command: %s' % req)
             return None
 
-        status = self.send_instruction(addr, instruction, message=data)
+        status = self.send_instruction(instruction, message=data)
         if self.debug:
             error_check(status) # This just prints stuff... # TODO: make it return success as boolean?
 
