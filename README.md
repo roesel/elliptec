@@ -32,7 +32,8 @@ ThorLabs Elliptec&trade; devices offer a neat way to quickly set up automated wo
 A basic example, which shows how to use a shutter:
 ```python
 import elliptec
-sh = elliptec.Shutter('COM3')
+controller = elliptec.Controller('COM3')
+sh = elliptec.Shutter(controller)
 # Get information about the device
 info = sh.get('info')
 # Home the rotator before usage
@@ -46,7 +47,8 @@ sh.close()
 An example using a rotator to collect multiple polarizations:
 ```python
 import elliptec
-ro = elliptec.Rotator('COM3')
+controller = elliptec.Controller('COM3')
+ro = elliptec.Rotator(controller)
 # Home the rotator before usage
 ro.home()
 # Loop over a list of angles and acquire for each
@@ -58,7 +60,8 @@ for angle in [0, 45, 90, 135]:
 An example using a four-positional slider:
 ```python
 import elliptec
-sl = elliptec.Slider('COM3')
+controller = elliptec.Controller('COM3')
+sl = elliptec.Slider(controller)
 # Home the slider before usage
 sl.home()
 # Move slider to position 3
@@ -83,6 +86,7 @@ What works:
 
 What is missing:
 * documentation
+* ability to control multiple devices on one controller via a bus module
 * safety (no library performed bounds checks etc)
 * consistency (across methods, devices, returns, ...)
 * automated discovery of devices
