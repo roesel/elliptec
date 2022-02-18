@@ -36,7 +36,7 @@ sh = elliptec.Shutter('COM3')
 # Get information about the device
 info = sh.get('info')
 # Home the rotator before usage
-ro.home()
+sh.home()
 # Open shutter, acquire, and close again
 sh.open()
 # ... acquire or perform other tasks
