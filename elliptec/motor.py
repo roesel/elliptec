@@ -8,22 +8,18 @@ class Motor():
 
     # TODO: Figure out how to handle multiple devices on a BUS
     #       1 port (locked), but multiple Motor objects?
-    def __init__(self, port, address='0', baudrate=9600, bytesize=8, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=2, write_timeout=0.5, debug=True):
-        try:
-            self.s = serial.Serial(port, baudrate=baudrate, bytesize=bytesize, parity=parity, stopbits=stopbits, timeout=timeout, write_timeout=write_timeout)
-        except serial.SerialException:
-            print('Could not open port %s' % port)
-            # TODO: nicer/more logical shutdown (this kills the entire app?)
-            sys.exit()
-
+    def __init__(self, controller, address='0', debug=True):
+        
+        # the controller object which services the COM port
+        self.controller = controller
         # self.address is kept as a 0-F string and encoded in send_instruction()
         self.address = address
-        self.last_position = None
         self.debug = debug
-        if self.s.is_open:
-            if self.debug:
-                print('Connection established!')
-            self.load_motor_info()
+        
+        self.last_position = None
+
+        # Load motor info on creation
+        self.load_motor_info()
     
     def load_motor_info(self):
         ''' Asks motor for info and load response into properties other methods can check later. '''    
@@ -36,53 +32,17 @@ class Motor():
         self.motor_type = self.info['Motor Type']
         
     def send_instruction(self, instruction, message=None):
-        # Encode inputs
-        addr = self.address.encode('utf-8')
-        inst = instruction #.encode('utf-8')
-        # Compose command
-        command = addr + inst
-        # Append command if necessary
-        if message is not None:
-            # Convert to hex if the message is a number
-            if isinstance(message, int):
-                mesg = int_to_padded_hex(message)
-            else:
-                mesg = message
-            
-            command += mesg.encode('utf-8')
-        
-        # Execute the command and wait for a response
-        # TODO: Go through this and try to unify
-        self.request = command  # TODO: check if this is necessary
-        if self.debug:
-            print("TX:", command)
-        self.s.write(command) # This actually executes the movement
-    
-        response = self.read_response()
-        
+        response = self.controller.send_instruction(
+            instruction, 
+            address=self.address, 
+            message=message
+        )
+
         return response
-    
-    def read_response(self):
-        response = self.s.read_until(b'\r\n') # Waiting until response read
-        
-        if self.debug:
-            print("RX:", response)
-        
-        status = parse(response) 
-
-        # Setting properties of last response/status/position
-        self.last_response = response
-        self.last_status = status
-        if not isinstance(status, dict):
-            if status[0] == 'PO':
-                self.last_position = status[1]
-
-        return status
-            
+   
     # Action functions
     def move(self, req='home', data=''):
         ''' Expects:
-            addr - Address of device (0-F)
             req - Name of request
             data - Parameters to be sent after address and request
         '''

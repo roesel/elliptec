@@ -4,11 +4,11 @@ from .tools import int_to_padded_hex, parse, error_check, move_check
 from . import Motor
 
 class Rotator(Motor):
-    ''' Rotary Stage (ELL14) '''
+    ''' Rotation mount (ELL14) '''
     
-    def __init__(self, port, address='0', debug=True, inverted=False):
+    def __init__(self, controller, address='0', debug=True, inverted=False):
         # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
-        super().__init__(port, address=address, debug=debug)
+        super().__init__(controller=controller, address=address, debug=debug)
     
     ## Position control
     def get_angle(self):

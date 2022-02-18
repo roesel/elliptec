@@ -2,6 +2,9 @@ from .cmd import commands
 from .devices import devices
 from .tools import *
 
+# Classes for controllers
+from .controller import Controller
+
 # General class for all motors
 from .motor import Motor
 
