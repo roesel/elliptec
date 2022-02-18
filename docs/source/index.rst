@@ -15,11 +15,12 @@ ThorLabs Elliptec devices offer a neat way to quickly set up automated workflows
 A basic example, which shows how to use a shutter:::
 
    import elliptec
-   sh = elliptec.Shutter('COM3')
+   controller = elliptec.Controller('COM3')
+   sh = elliptec.Shutter(controller)
    # Get information about the device
    info = sh.get('info')
-   # Home the rotator before usage
-   ro.home()
+   # Home the shutter before usage
+   sh.home()
    # Open shutter, acquire, and close again
    sh.open()
    # ... acquire or perform other tasks
@@ -28,7 +29,8 @@ A basic example, which shows how to use a shutter:::
 An example using a rotator to collect multiple polarizations:::
 
    import elliptec
-   ro = elliptec.Rotator('COM3')
+   controller = elliptec.Controller('COM3')
+   ro = elliptec.Rotator(controller)
    # Home the rotator before usage
    ro.home()
    # Loop over a list of angles and acquire for each
@@ -39,7 +41,8 @@ An example using a rotator to collect multiple polarizations:::
 An example using a four-positional slider:::
 
    import elliptec
-   sl = elliptec.Slider('COM3')
+   controller = elliptec.Controller('COM3')
+   sl = elliptec.Slider(controller)
    # Home the slider before usage
    sl.home()
    # Move slider to position 3

@@ -36,7 +36,7 @@ controller = elliptec.Controller('COM3')
 sh = elliptec.Shutter(controller)
 # Get information about the device
 info = sh.get('info')
-# Home the rotator before usage
+# Home the shutter before usage
 sh.home()
 # Open shutter, acquire, and close again
 sh.open()
