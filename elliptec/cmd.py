@@ -16,7 +16,8 @@ get_ = {
 
 set_ = {
 	'stepsize' : b'sj',
-	'isolate'  : b'is'
+	'isolate'  : b'is',
+	'address'  : b'ca',
 	}
 
 mov_ = {

@@ -32,12 +32,13 @@ def parse(msg):
 	msg = msg.decode().strip()
 	code = msg[1:3]
 	try: 
-		addr = int(msg[0], 16)
+		addr_int = int(msg[0], 16)
 	except ValueError:
 		raise ValueError('Invalid Address: %s' % msg[0])
+	addr = msg[0]
 	
 	if (code.upper() == 'IN'):
-		info = {'Address' : str(addr),
+		info = {'Address' : addr,
 			'Motor Type' : msg[3:5],
 			'Serial No.' : msg[5:13],
 			'Year' : msg[13:17],
@@ -50,11 +51,11 @@ def parse(msg):
 
 	elif ((code.upper() == 'PO') or code.upper() == 'BO'):
 		pos = msg[3:]
-		return (code, (s32(int(pos, 16))))
+		return (addr, code, (s32(int(pos, 16))))
 
 	elif (code.upper() == 'GS'):
 		errcode = msg[3:]
-		return (code, str(int(errcode, 16)))
+		return (addr, code, str(int(errcode, 16)))
 
 	elif (code.upper() in ['I1', 'I2']):
 		# Info about motor
@@ -63,7 +64,7 @@ def parse(msg):
 		# And 1 Amp of current is equal to 1866 points (1 point is 0.54 mA circa)
 
 		info = {
-			'Address' : str(addr),
+			'Address' : addr,
 			'Loop' : msg[3],  # The state of the loop setting (1 = ON, 0 = OFF)
 			'Motor' : msg[4], # The state of the motor (1 = ON, 0 = OFF)
 			'Current' : int(msg[5:9], 16)/1866, # 1866 points is 1 amp
@@ -77,7 +78,7 @@ def parse(msg):
 		return info
 
 	else:
-		return (code, msg[3:])
+		return (addr, code, msg[3:])
 
 def is_metric(num):
 	if (num == '0'):
@@ -111,13 +112,13 @@ def error_check(status):
 		print('Status is None')
 	elif isinstance(status, dict):
 		print('Status is a dictionary.')
-	elif (status[0] == "GS"):
-		if (status[1] != '0'): # is there an error?		
+	elif (status[1] == "GS"):
+		if (status[2] != '0'): # is there an error?		
 			err = error_codes[status[1]]
 			print('ERROR: %s' % err)
 		else:
 			print('Status OK')
-	elif (status[0] == "PO"):
+	elif (status[1] == "PO"):
 		print('Status OK (position)')
 	else:
 		print('Other status:', status)
@@ -125,10 +126,10 @@ def error_check(status):
 def move_check(status):
 	if not status:
 		print('Status is None')
-	elif status[0] == 'GS':
+	elif status[1] == 'GS':
 		error_check(status)
-	elif ((status[0] == "PO") or (status[0] == "BO")):
+	elif ((status[1] == "PO") or (status[1] == "BO")):
 		pass
 		print('Move Successful.')
 	else:
-		print('Unknown response code %s' % status[0])
+		print('Unknown response code %s' % status[1])

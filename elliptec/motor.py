@@ -39,7 +39,7 @@ class Motor():
         )
 
         return response
-   
+
     # Action functions
     def move(self, req='home', data=''):
         ''' Expects:
@@ -98,6 +98,16 @@ class Motor():
             self.move('home_clockwise')
         else:
             self.move('home_anticlockwise')
+
+    def change_address(self, new_address):
+        old_address = self.address
+        status = self.set('address', data=new_address)
+        self.address = new_address
+        if status[0] == new_address:
+            if self.debug:
+                print('Address successfully changed from {} to {}.'.format(old_address, new_address))
+        # TODO: add check of status
+        #self.address = new_address
 
     # TODO: To be implemented
     # set_forward_frequency(self, motor)
