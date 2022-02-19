@@ -15,8 +15,10 @@ ThorLabs Elliptec devices offer a neat way to quickly set up automated workflows
 Basic examples
 ==============
 
-A basic example, which shows how to use a shutter:::
+A basic example, which shows how to use a shutter:
 
+.. code-block:: python
+   
    import elliptec
    controller = elliptec.Controller('COM3')
    sh = elliptec.Shutter(controller)
@@ -29,8 +31,10 @@ A basic example, which shows how to use a shutter:::
    # ... acquire or perform other tasks
    sh.close()
 
-An example using a rotator to collect multiple polarizations::
+An example using a rotator to collect multiple polarizations:
 
+.. code-block:: python
+   
    import elliptec
    controller = elliptec.Controller('COM3')
    ro = elliptec.Rotator(controller)
@@ -38,10 +42,12 @@ An example using a rotator to collect multiple polarizations::
    ro.home()
    # Loop over a list of angles and acquire for each
    for angle in [0, 45, 90, 135]:
-   ro.set_angle(angle)
+       ro.set_angle(angle)
    # ... acquire or perform other tasks
 
-An example using a four-positional slider::
+An example using a four-positional slider:
+
+.. code-block:: python
 
    import elliptec
    controller = elliptec.Controller('COM3')
@@ -56,8 +62,10 @@ An example using a four-positional slider::
 Advanced examples
 =================
 
-An advanced example, which shows how to control multiple devices plugged into one ELLB bus controller simultaneously. The example assumes you have a shutter and a rotator on addresses 0 and 1 respectively, and shows how to take two images in perpendicular polarizations::
+An advanced example, which shows how to control multiple devices plugged into one ELLB bus controller simultaneously. The example assumes you have a shutter and a rotator on addresses 0 and 1 respectively, and shows how to take two images in perpendicular polarizations:
 
+.. code-block:: python
+   
    import elliptec
    controller = elliptec.Controller('COM4')
 
@@ -68,13 +76,11 @@ An advanced example, which shows how to control multiple devices plugged into on
    ro.home()
    # Loop over a list of angles and opne/acquire/close for each
    for angle in [0, 90]:
-      ro.set_angle(angle)
-      # Open shutter, acquire, and close again
-      sh.open()
-      # ... acquire or perform other tasks
-      sh.close()
-
-
+       ro.set_angle(angle)
+       # Open shutter, acquire, and close again
+       sh.open()
+       # ... acquire or perform other tasks
+       sh.close()
 
 .. toctree::
    :maxdepth: 2
