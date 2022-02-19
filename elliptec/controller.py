@@ -13,6 +13,7 @@ class Controller():
             sys.exit()
 
         self.debug = debug
+        self.port = port
 
         if self.s.is_open:
             if self.debug:
@@ -24,15 +25,16 @@ class Controller():
         if self.debug:
             print("RX:", response)
         
-        status = parse(response) 
+        status = parse(response, debug=self.debug) 
 
         # Setting properties of last response/status/position
         self.last_response = response
         self.last_status = status
         #print('STATUS:', status)
-        if not isinstance(status, dict):
-            if status[0] == 'PO':
-                self.last_position = status[1]
+        if status is not None:
+            if not isinstance(status, dict):
+                if status[1] == 'PO':
+                    self.last_position = status[1]
 
         return status
 

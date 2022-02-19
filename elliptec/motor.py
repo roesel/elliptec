@@ -1,5 +1,6 @@
 from .cmd import get_, set_, mov_
 from .tools import error_check, move_check
+from .errors import ExternalDeviceNotFound
 
 class Motor():
 
@@ -18,13 +19,17 @@ class Motor():
     
     def load_motor_info(self):
         ''' Asks motor for info and load response into properties other methods can check later. '''    
-        self.info = self.get('info')
+        info = self.get('info')
+        if info is None:
+            raise ExternalDeviceNotFound
+        else:
+            self.info = info
         
-        # TODO: Figure out which variables require extracting from info
-        self.range = self.info['Range']
-        self.pulse_per_rev = self.info['Pulse/Rev']
-        self.serial_no = self.info['Serial No.']
-        self.motor_type = self.info['Motor Type']
+            # TODO: Figure out which variables require extracting from info
+            self.range = self.info['Range']
+            self.pulse_per_rev = self.info['Pulse/Rev']
+            self.serial_no = self.info['Serial No.']
+            self.motor_type = self.info['Motor Type']
         
     def send_instruction(self, instruction, message=None):
         response = self.controller.send_instruction(
@@ -112,7 +117,7 @@ class Motor():
 
     ## Private methods
     def __str__(self):
-        string = '\nPort - ' + self.port + '\n\n'
+        string = ''
         for key in self.info:
             string += (key + ' - ' + str(self.info[key]) + '\n')            
         return string

@@ -1,21 +1,6 @@
-import serial as s
-import serial.tools.list_ports as listports
 from .errcodes import error_codes
 
-# Helper functions for the elliptec module
-
-def find_ports():
-	avail_ports = []
-	for port in listports.comports():
-		if port.serial_number:
-			try:
-				p = s.Serial(port.device)
-				p.close()
-				avail_ports.append(port)
-			except (OSError, s.SerialException):
-				print('%s unavailable.\n' % port.device)
-				#pass
-	return avail_ports
+# Basic helper functions
 
 def is_null_or_empty(msg):
         if (not msg.endswith(b'\r\n') or (len(msg) == 0)):
@@ -23,10 +8,11 @@ def is_null_or_empty(msg):
         else:
             return False
 
-def parse(msg):
+def parse(msg, debug=True):
 	if is_null_or_empty(msg):
-		print('Parse: Status/Response may be incomplete!')
-		print('Parse: Message:', msg)
+		if debug:
+			print('Parse: Status/Response may be incomplete!')
+			print('Parse: Message:', msg)
 		return None
 	msg = msg.decode().strip()
 	code = msg[1:3]
@@ -38,7 +24,7 @@ def parse(msg):
 	
 	if (code.upper() == 'IN'):
 		info = {'Address' : addr,
-			'Motor Type' : msg[3:5],
+			'Motor Type' : int(msg[3:5], 16),
 			'Serial No.' : msg[5:13],
 			'Year' : msg[13:17],
 			'Firmware' : msg[17:19],
