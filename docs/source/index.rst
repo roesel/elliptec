@@ -81,6 +81,22 @@ An advanced example, which shows how to control multiple devices plugged into on
        # ... acquire or perform other tasks
        sh.close()
 
+If you haven't changed the addresses of your boards, you can either do so through the `Elliptec Software`_, or by connecting them one-by-one to the bus and using the ``change_address()`` function of a device. Assuming a ``PC -> controller -> bus`` connecion, the setup would look something like this:
+
+.. code-block:: python
+
+   import elliptec
+   controller = elliptec.Controller('COM4')
+   # connect your first device to the bus
+   device_1 = elliptec.Motor(controller)
+   device_1.change_address('1')
+   # connect your second device
+   device_1 = elliptec.Motor(controller)
+   device_1.change_address('2')
+
+
+The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to an address of ``'0'``.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

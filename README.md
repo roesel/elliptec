@@ -70,6 +70,38 @@ sl.set_slot(3)
 sl.move('forward')
 ```
 
+## Advanced examples
+Controlling multiple devices through one ELB bus. The example assumes you have a shutter and a rotator on addresses 1 and 2 respectively, and shows how to take two images in perpendicular polarizations:
+```python
+import elliptec
+controller = elliptec.Controller('COM4')
+sh = elliptec.Shutter(controller, address='1')
+ro = elliptec.Rotator(controller, address='2')
+# Home the shutter and the rotator
+sh.home() 
+ro.home()
+# Loop over a list of angles and opne/acquire/close for each
+for angle in [0, 90]:
+    ro.set_angle(angle)
+    # Open shutter, acquire, and close again
+    sh.open()
+    # ... acquire or perform other tasks
+    sh.close()
+```
+
+If you haven't changed the addresses of your boards, you can either do so through the [Elliptec&trade; Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL), or by connecting them one-by-one to the bus and using the `change_address()` function of a device. Assuming a `PC -> controller -> bus` connecion, the setup would look something like this:
+```python
+import elliptec
+controller = elliptec.Controller('COM4')
+# connect your first device to the bus
+device_1 = elliptec.Motor(controller)
+device_1.change_address('1')
+# connect your second device
+device_1 = elliptec.Motor(controller)
+device_1.change_address('2')
+```
+The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to an address of `'0'`.
+
 ## List of supported devices
 Currently (somewhat) supported devices:
 * Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - typically used for polarization state generators
