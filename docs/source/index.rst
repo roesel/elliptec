@@ -12,6 +12,9 @@ ThorLabs Elliptec devices offer a neat way to quickly set up automated workflows
 
 **This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
 
+Basic examples
+==============
+
 A basic example, which shows how to use a shutter:::
 
    import elliptec
@@ -49,6 +52,28 @@ An example using a four-positional slider:::
    sl.set_slot(3)
    # Move slider forward (to position 4)
    sl.move('forward')
+
+Advanced examples
+=================
+
+An advanced example, which shows how to control multiple devices plugged into one ELLB bus controller simultaneously. The example assumes you have a shutter and a rotator on addresses 0 and 1 respectively, and shows how to take two images in perpendicular polarizations::: 
+
+   import elliptec
+   controller = elliptec.Controller('COM4')
+
+   sh = elliptec.Shutter(controller, address='0')
+   ro = elliptec.Rotator(controller, address='1')
+   # Home the shutter and the rotator
+   sh.home() 
+   ro.home()
+   # Loop over a list of angles and opne/acquire/close for each
+   for angle in [0, 90]:
+      ro.set_angle(angle)
+      # Open shutter, acquire, and close again
+      sh.open()
+      # ... acquire or perform other tasks
+      sh.close()
+
 
 
 .. toctree::
