@@ -17,4 +17,4 @@ error_codes = {
 }
 
 if __name__ == '__main__':
-	print(errcodes)
+	print(error_codes)
