@@ -29,7 +29,7 @@ A basic example, which shows how to use a shutter:::
    # ... acquire or perform other tasks
    sh.close()
 
-An example using a rotator to collect multiple polarizations:::
+An example using a rotator to collect multiple polarizations::
 
    import elliptec
    controller = elliptec.Controller('COM3')
@@ -41,7 +41,7 @@ An example using a rotator to collect multiple polarizations:::
    ro.set_angle(angle)
    # ... acquire or perform other tasks
 
-An example using a four-positional slider:::
+An example using a four-positional slider::
 
    import elliptec
    controller = elliptec.Controller('COM3')
@@ -56,7 +56,7 @@ An example using a four-positional slider:::
 Advanced examples
 =================
 
-An advanced example, which shows how to control multiple devices plugged into one ELLB bus controller simultaneously. The example assumes you have a shutter and a rotator on addresses 0 and 1 respectively, and shows how to take two images in perpendicular polarizations::: 
+An advanced example, which shows how to control multiple devices plugged into one ELLB bus controller simultaneously. The example assumes you have a shutter and a rotator on addresses 0 and 1 respectively, and shows how to take two images in perpendicular polarizations::
 
    import elliptec
    controller = elliptec.Controller('COM4')
