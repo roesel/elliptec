@@ -97,10 +97,10 @@ controller = elliptec.Controller('COM4')
 device_1 = elliptec.Motor(controller)
 device_1.change_address('1')
 # connect your second device
-device_1 = elliptec.Motor(controller)
-device_1.change_address('2')
+device_2 = elliptec.Motor(controller)
+device_2.change_address('2')
 ```
-The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to an address of `'0'`.
+The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to the default address of 0.
 
 ## List of supported devices
 Currently (somewhat) supported devices:

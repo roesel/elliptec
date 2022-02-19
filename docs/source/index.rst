@@ -62,14 +62,14 @@ An example using a four-positional slider:
 Advanced examples
 =================
 
-An advanced example, which shows how to control multiple devices plugged into one ELLB bus controller simultaneously. The example assumes you have a shutter and a rotator on addresses 0 and 1 respectively, and shows how to take two images in perpendicular polarizations:
+An advanced example, which shows how to control multiple devices plugged into one ELLB bus controller simultaneously. The example assumes you have a shutter and a rotator on addresses 1 and 2 respectively, and shows how to take two images in perpendicular polarizations:
 
 .. code-block:: python
    
    import elliptec
    controller = elliptec.Controller('COM4')
-   sh = elliptec.Shutter(controller, address='0')
-   ro = elliptec.Rotator(controller, address='1')
+   sh = elliptec.Shutter(controller, address='1')
+   ro = elliptec.Rotator(controller, address='2')
    # Home the shutter and the rotator
    sh.home() 
    ro.home()
@@ -91,11 +91,11 @@ If you haven't changed the addresses of your boards, you can either do so throug
    device_1 = elliptec.Motor(controller)
    device_1.change_address('1')
    # connect your second device
-   device_1 = elliptec.Motor(controller)
-   device_1.change_address('2')
+   device_2 = elliptec.Motor(controller)
+   device_2.change_address('2')
 
 
-The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to an address of ``'0'``.
+The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to an address of 0.
 
 .. toctree::
    :maxdepth: 2
