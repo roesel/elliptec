@@ -68,7 +68,6 @@ An advanced example, which shows how to control multiple devices plugged into on
    
    import elliptec
    controller = elliptec.Controller('COM4')
-
    sh = elliptec.Shutter(controller, address='0')
    ro = elliptec.Rotator(controller, address='1')
    # Home the shutter and the rotator
