@@ -44,23 +44,23 @@ class Shutter(Motor):
             return None
 
     ## Opening and closing for Shutter approach
-    def open(self, force=False):
+    def open(self):
         ''' Opens the shutter. Actual position depends on whether or not inverted=True is 
             passed to the shutter at creation.  
         '''
         if not self.inverted:
-            return self.set_slot(2, force=force)
+            return self.set_slot(2)
         else:
-            return self.set_slot(1, force=force)
+            return self.set_slot(1)
     
-    def close(self, force=False):
+    def close(self):
         ''' Closes the shutter. Actual position depends on whether or not inverted=True is 
             passed to the shutter at creation.
         '''
         if not self.inverted:
-            return self.set_slot(2, force=force)
+            return self.set_slot(1)
         else:
-            return self.set_slot(1, force=force)
+            return self.set_slot(2)
 
     def is_open(self):
         if not self.inverted:
