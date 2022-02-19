@@ -8,7 +8,6 @@ def find_ports():
 	avail_ports = []
 	for port in listports.comports():
 		if port.serial_number:
-			#print(port.serial_number)
 			try:
 				p = s.Serial(port.device)
 				p.close()

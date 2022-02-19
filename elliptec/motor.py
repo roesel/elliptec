@@ -1,13 +1,8 @@
-import serial
 from .cmd import get_, set_, mov_
-from .devices import devices
-from .tools import parse, error_check, move_check, int_to_padded_hex
-import sys
+from .tools import error_check, move_check
 
 class Motor():
 
-    # TODO: Figure out how to handle multiple devices on a BUS
-    #       1 port (locked), but multiple Motor objects?
     def __init__(self, controller, address='0', debug=True):
         
         # the controller object which services the COM port
@@ -102,12 +97,11 @@ class Motor():
     def change_address(self, new_address):
         old_address = self.address
         status = self.set('address', data=new_address)
-        self.address = new_address
         if status[0] == new_address:
+            # Make the Motor object know about the change
+            self.address = new_address  
             if self.debug:
                 print('Address successfully changed from {} to {}.'.format(old_address, new_address))
-        # TODO: add check of status
-        #self.address = new_address
 
     # TODO: To be implemented
     # set_forward_frequency(self, motor)

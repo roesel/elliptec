@@ -1,6 +1,4 @@
-from .cmd import get_, set_, mov_
 from .devices import devices
-from .tools import parse, error_check, move_check
 from . import Motor
 
 class Shutter(Motor):

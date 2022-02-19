@@ -1,7 +1,5 @@
 import serial
-from .cmd import get_, set_, mov_
-from .devices import devices
-from .tools import parse, error_check, move_check, int_to_padded_hex
+from .tools import parse, int_to_padded_hex
 import sys
 
 class Controller():
