@@ -115,10 +115,12 @@ What works:
 * basic movement
 * getting information about the device 
 * getting information about individual motors
+* ability to control multiple devices on one controller via a bus module
+
+What needs improvements:
+* documentation
 
 What is missing:
-* documentation
-* ability to control multiple devices on one controller via a bus module
 * safety (no library performed bounds checks etc)
 * consistency (across methods, devices, returns, ...)
 * automated discovery of devices
