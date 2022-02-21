@@ -26,7 +26,7 @@
 
 ThorLabs Elliptec&trade; devices offer a neat way to quickly set up automated workflows in optical systems. This project aims to provide a simple and quick way to control them directly from Python. It uses the [pyserial](https://github.com/pyserial/pyserial) library and is inspired by the [TL-rotation-control](https://github.com/cdbaird/TL-rotation-control) project by [Chris Baird](https://github.com/cdbaird). The end goal of the project is to reproduce the entire functionality of the official [Elliptec&trade; Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL). 
 
-**This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
+💣 **This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
 
 ## Quickstart
 A basic example, which shows how to use a shutter:
