@@ -21,4 +21,9 @@ devices = {
         'commands': ['info', 'status', 'position', 'home', 'forward', 'backward'],
         'todo': ['open', 'close', 'disconnect', 'isolate', 'set_f_fwd', 'set_f_bck', 'fix_freqs', 'search_freqs'],
     },
+    18: {
+        'name': 'ELL18',
+        'commands': ['info', 'status', 'position', 'home', 'forward', 'backward'],
+        'todo': ['open', 'close', 'disconnect', 'isolate', 'set_f_fwd', 'set_f_bck', 'fix_freqs', 'search_freqs'],
+    },
 }

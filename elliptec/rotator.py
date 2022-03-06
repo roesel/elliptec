@@ -2,7 +2,7 @@ from .devices import devices
 from . import Motor
 
 class Rotator(Motor):
-    ''' Rotation mount (ELL14) '''
+    ''' Rotation mount (ELL14) or Rotary stage (ELL18)'''
     
     def __init__(self, controller, address='0', debug=True, inverted=False):
         # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)

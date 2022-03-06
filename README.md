@@ -44,7 +44,7 @@ sh.open()
 sh.close()
 ```
 
-An example using a rotator to collect multiple polarizations:
+An example using a rotator (mount or stage) to collect multiple polarizations/angles:
 ```python
 import elliptec
 controller = elliptec.Controller('COM3')
@@ -105,6 +105,7 @@ The changes made to the addresses should last until the bus loses power, at whic
 ## List of supported devices
 Currently (somewhat) supported devices:
 * Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - typically used for polarization state generators
+* Rotation Stage (ELL18) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10459) - typically used for rotational control of free-standing optical elements
 * Dual-Position Slider (ELL6) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - typically used as a shutter
 * Four-Position Slider (ELL9) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - typically used as a filter wheel
 
