@@ -31,7 +31,7 @@ A basic example, which shows how to use a shutter:
    # ... acquire or perform other tasks
    sh.close()
 
-An example using a rotator to collect multiple polarizations:
+An example using a rotator (mount or stage) to collect multiple polarizations/angles:
 
 .. code-block:: python
    
