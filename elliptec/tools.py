@@ -34,7 +34,7 @@ def parse(msg, debug=True):
 			'Pulse/Rev' : (int(msg[25:], 16)) }
 		return info
 
-	elif ((code.upper() == 'PO') or code.upper() == 'BO'):
+	elif code.upper() in ['PO', 'BO', 'HO', 'GJ']:
 		pos = msg[3:]
 		return (addr, code, (s32(int(pos, 16))))
 

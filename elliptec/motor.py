@@ -121,3 +121,6 @@ class Motor():
         for key in self.info:
             string += (key + ' - ' + str(self.info[key]) + '\n')            
         return string
+    
+    def close(self):
+        self.controller.close()

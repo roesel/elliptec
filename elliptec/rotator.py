@@ -42,6 +42,12 @@ class Rotator(Motor):
         status = self.get('home_offset')
         angle = self.extract_angle_from_status(status)
         return angle
+    
+    def set_home_offset(self, offset):
+        position = self.angle_to_pos(offset)
+        status = self.set('home_offset', position)
+        return status
+
 
     # Jog step
     def get_jog_step(self):
@@ -56,7 +62,6 @@ class Rotator(Motor):
         status = self.set('stepsize', position)
         return status
 
-    # TODO: set_home_offset(self, offset)
     # TODO: clean(self)
     # TODO: clean_and_optimize(self)
 
@@ -64,8 +69,8 @@ class Rotator(Motor):
     def extract_angle_from_status(self, status):
         # If status is telling us current position
         if status:
-            if status[0] in ['PO', 'HO', 'GJ']:
-                position = int(str(status[1]), 16)
+            if status[1] in ['PO', 'HO', 'GJ']:
+                position = int(status[2])
                 angle = self.pos_to_angle(position)
                 return angle
         
