@@ -18,6 +18,7 @@ set_ = {
 	'stepsize' : b'sj',
 	'isolate'  : b'is',
 	'address'  : b'ca',
+    'home_offset': b'so'
 	}
 
 mov_ = {

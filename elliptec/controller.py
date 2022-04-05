@@ -61,5 +61,10 @@ class Controller():
         response = self.read_response()
         
         return response
+    
+    def close(self):
+        if self.s.is_open:
+            self.s.close()
+            print("Connection is closed!")
 
     
