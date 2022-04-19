@@ -10,8 +10,8 @@ get_ = {
 	'position': b'gp',
 	'stepsize' : b'gj',
 	'home_offset' : b'go',
-    'motor_1_info' : b'i1',
-    'motor_2_info' : b'i2',
+	'motor_1_info' : b'i1',
+	'motor_2_info' : b'i2',
 	}
 
 set_ = {
