@@ -46,8 +46,9 @@ class Slider(Motor):
         closest_position = min(positions, key=lambda x:abs(x-posval))
         if abs(closest_position - posval) > accuracy:
             return None
-        else:    
-            return positions.index(closest_position) + 1
+        else:
+            slot = positions.index(closest_position) + 1
+            return slot
         
     def slot_to_pos(self, slot):
         positions = devices[self.motor_type]['positions'] 
