@@ -34,19 +34,20 @@ class Slider(Motor):
     def extract_slot_from_status(self, status):
         # If status is telling us current position
         if status:
-            if status[0]=='PO':
-                position = status[1]
+            if status[1]=='PO':
+                position = status[2]
                 slot = self.pos_to_slot(position)
                 return slot
         
         return None
         
-    def pos_to_slot(self, posval):
+    def pos_to_slot(self, posval, accuracy = 5):
         positions = devices[self.motor_type]['positions'] 
-        if posval not in positions:
+        closest_position = min(positions, key=lambda x:abs(x-posval))
+        if abs(closest_position - posval) > accuracy:
             return None
         else:    
-            slot = positions.index(posval) + 1
+            return positions.index(closest_position) + 1
         
     def slot_to_pos(self, slot):
         positions = devices[self.motor_type]['positions'] 
