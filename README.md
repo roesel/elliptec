@@ -44,6 +44,19 @@ sh.open()
 sh.close()
 ```
 
+An example using a four-positional slider:
+```python
+import elliptec
+controller = elliptec.Controller('COM3')
+sl = elliptec.Slider(controller)
+# Home the slider before usage
+sl.home()
+# Move slider to position 3
+sl.set_slot(3)
+# Move slider forward (to position 4)
+sl.move('forward')
+```
+
 An example using a rotator (mount or stage) to collect multiple polarizations/angles:
 ```python
 import elliptec
@@ -57,17 +70,17 @@ for angle in [0, 45, 90, 135]:
   # ... acquire or perform other tasks
 ```
 
-An example using a four-positional slider:
+An example using a linear stage to find optimal focus:
 ```python
 import elliptec
 controller = elliptec.Controller('COM3')
-sl = elliptec.Slider(controller)
-# Home the slider before usage
-sl.home()
-# Move slider to position 3
-sl.set_slot(3)
-# Move slider forward (to position 4)
-sl.move('forward')
+ls = elliptec.Linear(controller)
+# Home the linear stage before usage
+ls.home()
+# Loop over a list of positions and measure gain for each
+for distance in range(0, 61, 10):
+  ls.set_distance(distance)
+  # ... measure gain
 ```
 
 ## Advanced examples
@@ -100,16 +113,24 @@ device_1.change_address('1')
 device_2 = elliptec.Motor(controller)
 device_2.change_address('2')
 ```
-The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to the default address of 0.
+The changes made to the addresses should last until the bus loses power, at which point all deviced might revert to the default address of 0.
 
 ## List of supported devices
 Currently (somewhat) supported devices:
 * Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - useful for polarization state generators
 * Rotation Stage (ELL18) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10459) - useful for rotating mirrors
+* Linear Stage (ELL20) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=11736) - useful for motorized focusing
 * Dual-Position Slider (ELL6) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a shutter
 * Four-Position Slider (ELL9) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a filter wheel
 
-As of right now, I do not have access to any other devices from the Elliptec&trade; family. If you are interested in controlling a device that is not on this list, feel free to reach out to me.
+As of right now, I do not have access to any other devices from the Elliptec&trade; family. If you are interested in controlling a device that is not on this list, feel free to reach out to me. Thank you to Thorlabs Inc. for providing me with some of the devices above for testing.
+
+## Untested (but possibly working) devices
+These devices have never been tested with this library, but could potentially work with some minor code changes, since they share a design with one of the *somewhat supported* ones:
+* Linear Stage (ELL17) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10461) - useful for motorized focusing
+* Six-Position Slider (ELL12) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a filter wheel
+
+The same could possibly extend to the discontinued/obsolete devices such as the ELL7, ELL8, and ELL10.
 
 ## What works and what doesn't
 What works:
@@ -120,14 +141,13 @@ What works:
 
 What needs improvements:
 * documentation
+* automated discovery of devices
 
 What is missing:
 * safety (no library performed bounds checks etc)
 * consistency (across methods, devices, returns, ...)
-* automated discovery of devices
 * adding devices by serial number
-* searching for optimal motor frequencies
-* (re)setting permanent parameters (home positions, motor frequencies)
+* searching for and setting optimal motor frequencies
 * cleaning and optimization procedures
 
 Some of the missing functionality can be performed using the official [Elliptec&trade; Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL).

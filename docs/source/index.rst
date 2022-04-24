@@ -10,7 +10,7 @@ ThorLabs Elliptec devices offer a neat way to quickly set up automated workflows
 .. _Chris Baird: https://github.com/cdbaird
 .. _Elliptec Software: https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL
 
-**This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
+💣 **This library is still under active development. Serious bugs are present and breaking changes will be introduced.** 
 
 Basic examples
 ==============
@@ -31,6 +31,20 @@ A basic example, which shows how to use a shutter:
    # ... acquire or perform other tasks
    sh.close()
 
+An example using a four-positional slider:
+
+.. code-block:: python
+
+   import elliptec
+   controller = elliptec.Controller('COM3')
+   sl = elliptec.Slider(controller)
+   # Home the slider before usage
+   sl.home()
+   # Move slider to position 3
+   sl.set_slot(3)
+   # Move slider forward (to position 4)
+   sl.move('forward')
+
 An example using a rotator (mount or stage) to collect multiple polarizations/angles:
 
 .. code-block:: python
@@ -45,19 +59,19 @@ An example using a rotator (mount or stage) to collect multiple polarizations/an
        ro.set_angle(angle)
    # ... acquire or perform other tasks
 
-An example using a four-positional slider:
+An example using a linear stage to find optimal focus:
 
 .. code-block:: python
 
    import elliptec
    controller = elliptec.Controller('COM3')
-   sl = elliptec.Slider(controller)
-   # Home the slider before usage
-   sl.home()
-   # Move slider to position 3
-   sl.set_slot(3)
-   # Move slider forward (to position 4)
-   sl.move('forward')
+   ls = elliptec.Linear(controller)
+   # Home the linear stage before usage
+   ls.home()
+   # Loop over a list of positions and measure gain for each
+   for distance in range(0, 61, 10):
+   ls.set_distance(distance)
+   # ... measure gain
 
 Advanced examples
 =================
@@ -95,7 +109,7 @@ If you haven't changed the addresses of your boards, you can either do so throug
    device_2.change_address('2')
 
 
-The changes made to the addresses should last until the bus loses power, at which point all deviced will revert to an address of 0.
+The changes made to the addresses should last until the bus loses power, at which point all devices might revert to an address of 0.
 
 .. toctree::
    :maxdepth: 2

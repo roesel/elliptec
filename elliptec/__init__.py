@@ -13,3 +13,4 @@ from .motor import Motor
 from .shutter import Shutter
 from .slider import Slider
 from .rotator import Rotator
+from .linear import Linear

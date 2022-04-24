@@ -3,6 +3,8 @@ from . import Motor
 
 class Rotator(Motor):
     ''' Rotation mount (ELL14) or Rotary stage (ELL18)'''
+
+    # TODO: Merge this class with Linear() via common ancestor
     
     def __init__(self, controller, address='0', debug=True, inverted=False):
         # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
