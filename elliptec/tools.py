@@ -99,7 +99,7 @@ def error_check(status):
 		print('Status is a dictionary.')
 	elif (status[1] == "GS"):
 		if (status[2] != '0'): # is there an error?		
-			err = error_codes[status[1]]
+			err = error_codes[status[2]]
 			print('ERROR: %s' % err)
 		else:
 			print('Status OK')
