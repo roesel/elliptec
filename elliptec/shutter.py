@@ -76,8 +76,8 @@ class Shutter(Motor):
     def extract_slot_from_status(self, status):
         # If status is telling us current position
         if status:
-            if status[0]=='PO':
-                position = status[1]
+            if status[1]=='PO':
+                position = status[2]
                 slot = self.pos_to_slot(position)
                 return slot
         
