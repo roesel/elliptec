@@ -1,0 +1,28 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "elliptec"
+version = "0.0.2"
+authors = [
+  { name="David Roesel", email="roesel@gmail.com" },
+]
+description = "Simple control of Thorlabs Elliptec devices."
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent",
+]
+keywords = ["elliptec", "thorlabs", "serial"]
+dependencies = [
+    "pyserial",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/roesel/elliptec"
+"Documentation" = "https://elliptec.readthedocs.io"
+"Bug Tracker" = "https://github.com/roesel/elliptec/issues"
