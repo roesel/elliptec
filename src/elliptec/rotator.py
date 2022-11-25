@@ -5,20 +5,20 @@ class Rotator(Motor):
     ''' Rotation mount (ELL14) or Rotary stage (ELL18)'''
 
     # TODO: Merge this class with Linear() via common ancestor
-    
+
     def __init__(self, controller, address='0', debug=True, inverted=False):
         # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
         super().__init__(controller=controller, address=address, debug=debug)
-    
+
     ## Position control
     def get_angle(self):
         ''' Finds at which angle (in degrees) the rotator is at the moment. '''
         status = self.get('position')
         angle = self.extract_angle_from_status(status)
         return angle
-    
+
     def set_angle(self, angle):
-        ''' Moves the rotator to a particular angle (in degrees). 
+        ''' Moves the rotator to a particular angle (in degrees).
         '''
         position = self.angle_to_pos(angle)
         status = self.move('absolute', position)
@@ -44,7 +44,7 @@ class Rotator(Motor):
         status = self.get('home_offset')
         angle = self.extract_angle_from_status(status)
         return angle
-    
+
     def set_home_offset(self, offset):
         position = self.angle_to_pos(offset)
         status = self.set('home_offset', position)
@@ -58,7 +58,7 @@ class Rotator(Motor):
         return angle
 
     def set_jog_step(self, angle):
-        ''' Sets jog step to a particular angle (in degrees). 
+        ''' Sets jog step to a particular angle (in degrees).
         '''
         position = self.angle_to_pos(angle)
         status = self.set('stepsize', position)
@@ -75,16 +75,14 @@ class Rotator(Motor):
                 position = int(status[2])
                 angle = self.pos_to_angle(position)
                 return angle
-        
+
         return None
 
     def pos_to_angle(self, posval):
-        position = posval % self.pulse_per_rev
-        angle = position/self.pulse_per_rev * self.range
+        angle = posval / self.pulse_per_rev * self.range
         angle_rounded = round(angle, 4)
         return angle_rounded
-        
+
     def angle_to_pos(self, angleval):
-        angle = angleval % self.range
-        position = int(angle/self.range * self.pulse_per_rev)
+        position = int(angleval / self.range * self.pulse_per_rev)
         return position

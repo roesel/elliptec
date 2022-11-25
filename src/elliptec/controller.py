@@ -1,5 +1,5 @@
 import serial
-from .tools import parse, int_to_padded_hex
+from .tools import parse
 import sys
 
 class Controller():
@@ -19,13 +19,19 @@ class Controller():
             if self.debug:
                 print('Controller on port {}: Connection established!'.format(port))
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
     def read_response(self):
         response = self.s.read_until(b'\r\n') # Waiting until response read
-        
+
         if self.debug:
             print("RX:", response)
-        
-        status = parse(response, debug=self.debug) 
+
+        status = parse(response, debug=self.debug)
 
         # Setting properties of last response/status/position
         self.last_response = response
@@ -48,23 +54,21 @@ class Controller():
         if message is not None:
             # Convert to hex if the message is a number
             if isinstance(message, int):
-                mesg = int_to_padded_hex(message)
+                mesg = message.to_bytes(4, "big", signed=True).hex().upper()
             else:
                 mesg = message
-            
+
             command += mesg.encode('utf-8')
-        
+
         if self.debug:
             print("TX:", command)
-        # Execute the command and wait for a response 
+        # Execute the command and wait for a response
         self.s.write(command) # This actually executes the command
         response = self.read_response()
-        
+
         return response
-    
+
     def close(self):
         if self.s.is_open:
             self.s.close()
             print("Connection is closed!")
-
-    
