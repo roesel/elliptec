@@ -19,6 +19,12 @@ class Controller():
             if self.debug:
                 print('Controller on port {}: Connection established!'.format(port))
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
     def read_response(self):
         response = self.s.read_until(b'\r\n') # Waiting until response read
 
