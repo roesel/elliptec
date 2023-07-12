@@ -42,7 +42,7 @@ class Shutter(Motor):
             return None
 
     ## Opening and closing for Shutter approach
-    def open(self):
+    def open_sht(self):
         ''' Opens the shutter. Actual position depends on whether or not inverted=True is 
             passed to the shutter at creation.  
         '''
@@ -51,7 +51,7 @@ class Shutter(Motor):
         else:
             return self.set_slot(1)
     
-    def close(self):
+    def close_sht(self):
         ''' Closes the shutter. Actual position depends on whether or not inverted=True is 
             passed to the shutter at creation.
         '''
