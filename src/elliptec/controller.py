@@ -2,13 +2,31 @@ import serial
 from .tools import parse
 import sys
 
-class Controller():
 
-    def __init__(self, port, baudrate=9600, bytesize=8, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=2, write_timeout=0.5, debug=True):
+class Controller:
+    def __init__(
+        self,
+        port,
+        baudrate=9600,
+        bytesize=8,
+        parity=serial.PARITY_NONE,
+        stopbits=serial.STOPBITS_ONE,
+        timeout=2,
+        write_timeout=0.5,
+        debug=True,
+    ):
         try:
-            self.s = serial.Serial(port, baudrate=baudrate, bytesize=bytesize, parity=parity, stopbits=stopbits, timeout=timeout, write_timeout=write_timeout)
+            self.s = serial.Serial(
+                port,
+                baudrate=baudrate,
+                bytesize=bytesize,
+                parity=parity,
+                stopbits=stopbits,
+                timeout=timeout,
+                write_timeout=write_timeout,
+            )
         except serial.SerialException:
-            print('Could not open port %s' % port)
+            print("Could not open port %s" % port)
             # TODO: nicer/more logical shutdown (this kills the entire app?)
             sys.exit()
 
@@ -17,7 +35,7 @@ class Controller():
 
         if self.s.is_open:
             if self.debug:
-                print('Controller on port {}: Connection established!'.format(port))
+                print("Controller on port {}: Connection established!".format(port))
 
     def __enter__(self):
         return self
@@ -26,7 +44,7 @@ class Controller():
         self.close()
 
     def read_response(self):
-        response = self.s.read_until(b'\r\n') # Waiting until response read
+        response = self.s.read_until(b"\r\n")  # Waiting until response read
 
         if self.debug:
             print("RX:", response)
@@ -36,18 +54,18 @@ class Controller():
         # Setting properties of last response/status/position
         self.last_response = response
         self.last_status = status
-        #print('STATUS:', status)
+        # print('STATUS:', status)
         if status is not None:
             if not isinstance(status, dict):
-                if status[1] == 'PO':
+                if status[1] == "PO":
                     self.last_position = status[1]
 
         return status
 
-    def send_instruction(self, instruction, address='0', message=None):
+    def send_instruction(self, instruction, address="0", message=None):
         # Encode inputs
-        addr = address.encode('utf-8')
-        inst = instruction #.encode('utf-8') # Already encoded
+        addr = address.encode("utf-8")
+        inst = instruction  # .encode('utf-8') # Already encoded
         # Compose command
         command = addr + inst
         # Append command if necessary
@@ -58,12 +76,12 @@ class Controller():
             else:
                 mesg = message
 
-            command += mesg.encode('utf-8')
+            command += mesg.encode("utf-8")
 
         if self.debug:
             print("TX:", command)
         # Execute the command and wait for a response
-        self.s.write(command) # This actually executes the command
+        self.s.write(command)  # This actually executes the command
         response = self.read_response()
 
         return response

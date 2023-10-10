@@ -1,1 +1,2 @@
-class ExternalDeviceNotFound(IOError): pass
+class ExternalDeviceNotFound(IOError):
+    pass
