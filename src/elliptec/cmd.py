@@ -27,6 +27,7 @@ mov_ = {
 
 
 def commands():
+    """Returns a dictionary of commands that the devices can accept."""
     return {"get": get_, "set": set_, "move": mov_}
 
 

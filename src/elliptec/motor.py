@@ -1,9 +1,12 @@
+"""A module that contains the Motor class, which is the base class for all motors."""
 from .cmd import get_, set_, mov_
 from .tools import error_check, move_check
 from .errors import ExternalDeviceNotFound
 
 
 class Motor:
+    """A class that represents a general motor. Each device inherits from this class."""
+
     def __init__(self, controller, address="0", debug=True):
         # the controller object which services the COM port
         self.controller = controller
@@ -31,13 +34,15 @@ class Motor:
             self.motor_type = self.info["Motor Type"]
 
     def send_instruction(self, instruction, message=None):
+        """Sends an instruction to the motor. Returns the response from the motor."""
         response = self.controller.send_instruction(instruction, address=self.address, message=message)
 
         return response
 
     # Action functions
     def move(self, req="home", data=""):
-        """Expects:
+        """Wrapper function to easily enable access to movement.
+        Expects:
         req - Name of request
         data - Parameters to be sent after address and request
         """
@@ -45,7 +50,7 @@ class Motor:
         if req in mov_:
             instruction = mov_[req]
         else:
-            print("Invalid Command: %s" % req)
+            print(f"Invalid Command: {req}")
             return False
 
         # Add '0' to end of 'home' instruction
@@ -55,34 +60,36 @@ class Motor:
 
         status = self.send_instruction(instruction, message=data)
         if self.debug:
-            move_check(status)  # This just prints stuff... # TODO: make it return success as boolean?
+            move_check(status)  # TODO: make it return success as boolean?
         return status
 
     def get(self, req="status", data=""):
+        """Generates get instructions from commands."""
         # Try to translate command to instruction
         if req in get_:
             instruction = get_[req]
         else:
-            print("Invalid Command: %s" % req)
+            print(f"Invalid Command: {req}")
             return None
 
         status = self.send_instruction(instruction, message=data)
         if self.debug:
-            error_check(status)  # This just prints stuff... # TODO: make it return success as boolean?
+            error_check(status)  # TODO: make it return success as boolean?
 
         return status
 
     def set(self, req="", data=""):
+        """Generates set instructions from commands."""
         # Try to translate command to instruction
         if req in set_:
             instruction = set_[req]
         else:
-            print("Invalid Command: %s" % req)
+            print(f"Invalid Command: {req}")
             return None
 
         status = self.send_instruction(instruction, message=data)
         if self.debug:
-            error_check(status)  # This just prints stuff... # TODO: make it return success as boolean?
+            error_check(status)  # TODO: make it return success as boolean?
 
         return status
 
@@ -95,13 +102,14 @@ class Motor:
             self.move("home_anticlockwise")
 
     def change_address(self, new_address):
+        """Changes the address of the motor."""
         old_address = self.address
         status = self.set("address", data=new_address)
         if status[0] == new_address:
             # Make the Motor object know about the change
             self.address = new_address
             if self.debug:
-                print("Address successfully changed from {} to {}.".format(old_address, new_address))
+                print(f"Address successfully changed from {old_address} to {new_address}.")
 
     # TODO: To be implemented
     # set_forward_frequency(self, motor)
@@ -111,10 +119,12 @@ class Motor:
 
     ## Private methods
     def __str__(self):
+        """Returns a string representation of the motor."""
         string = ""
         for key in self.info:
             string += key + " - " + str(self.info[key]) + "\n"
         return string
 
     def close(self):
+        """Closes the serial port."""
         self.controller.close()

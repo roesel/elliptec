@@ -1,9 +1,9 @@
+"""Miscellaneous helper functions for the elliptec package."""
 from .errcodes import error_codes
-
-# Basic helper functions
 
 
 def is_null_or_empty(msg):
+    """Checks if message is empty or null."""
     if not msg.endswith(b"\r\n") or (len(msg) == 0):
         return True
     else:
@@ -11,6 +11,7 @@ def is_null_or_empty(msg):
 
 
 def parse(msg, debug=True):
+    """Parses the message from the controller."""
     if is_null_or_empty(msg):
         if debug:
             print("Parse: Status/Response may be incomplete!")
@@ -20,8 +21,8 @@ def parse(msg, debug=True):
     code = msg[1:3]
     try:
         _ = int(msg[0], 16)
-    except ValueError:
-        raise ValueError("Invalid Address: %s" % msg[0])
+    except ValueError as exc:
+        raise ValueError(f"Invalid Address: {msg[0]}.") from exc
     addr = msg[0]
 
     if code.upper() == "IN":
@@ -71,6 +72,7 @@ def parse(msg, debug=True):
 
 
 def is_metric(num):
+    """Checks if thread is metric or imperial."""
     if num == "0":
         thread_type = "Metric"
     elif num == "1":
@@ -81,11 +83,13 @@ def is_metric(num):
     return thread_type
 
 
-def s32(value):  # Convert 32bit signed hex to int
+def s32(value):
+    """Convert 32bit signed hex to int."""
     return -(value & 0x80000000) | (value & 0x7FFFFFFF)
 
 
 def error_check(status):
+    """Checks if there is an error."""
     if not status:
         print("Status is None")
     elif isinstance(status, dict):
@@ -93,7 +97,7 @@ def error_check(status):
     elif status[1] == "GS":
         if status[2] != "0":  # is there an error?
             err = error_codes[status[2]]
-            print("ERROR: %s" % err)
+            print(f"ERROR: {err}")
         else:
             print("Status OK")
     elif status[1] == "PO":
@@ -103,12 +107,12 @@ def error_check(status):
 
 
 def move_check(status):
+    """Checks if the move was successful."""
     if not status:
         print("Status is None")
     elif status[1] == "GS":
         error_check(status)
     elif (status[1] == "PO") or (status[1] == "BO"):
-        pass
         print("Move Successful.")
     else:
-        print("Unknown response code %s" % status[1])
+        print(f"Unknown response code {status[1]}")

@@ -1,9 +1,11 @@
-from .devices import devices
+"""Module for linear stages. Inherits from elliptec.Motor."""
 from . import Motor
 
 
 class Linear(Motor):
-    def __init__(self, controller, address="0", debug=True, inverted=False):
+    """Elliptec Linear Motor class. Inherits from elliptec.Motor."""
+
+    def __init__(self, controller, address="0", debug=True):
         # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
         super().__init__(controller=controller, address=address, debug=debug)
 
@@ -22,12 +24,14 @@ class Linear(Motor):
         return distance
 
     def shift_distance(self, distance):
+        """Shifts by a particular distance."""
         position = self.dist_to_pos(distance)
         status = self.move("relative", position)
         distance = self.extract_distance_from_status(status)
         return distance
 
     def jog(self, direction="forward"):
+        """Jogs by the jog distance in a particular direction."""
         if direction in ["backward", "forward"]:
             status = self.move(direction)
             position = self.extract_distance_from_status(status)
@@ -37,17 +41,20 @@ class Linear(Motor):
 
     # Home set/get
     def get_home_offset(self):
+        """Gets the home offset."""
         status = self.get("home_offset")
         distance = self.extract_distance_from_status(status)
         return distance
 
     def set_home_offset(self, offset):
+        """Sets the home offset."""
         position = self.dist_to_pos(offset)
         status = self.set("home_offset", position)
         return status
 
     # Jog step
     def get_jog_step(self):
+        """Gets the jog step."""
         status = self.get("stepsize")
         distance = self.extract_distance_from_status(status)
         return distance
@@ -63,6 +70,7 @@ class Linear(Motor):
 
     # Helper functions
     def extract_distance_from_status(self, status):
+        """Extracts distance from status."""
         # If status is telling us current position
         if status:
             if status[1] in ["PO", "HO", "GJ"]:

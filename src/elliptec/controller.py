@@ -1,9 +1,18 @@
+"""This module contains the Controller class, which is the base class for all devices."""
+
+import sys
 import serial
 from .tools import parse
-import sys
 
 
 class Controller:
+    """Class for controlling the Elliptec devices via serial port. This is a general class,
+    subclasses are implemented for each device type."""
+
+    last_position = None
+    last_response = None
+    last_status = None
+
     def __init__(
         self,
         port,
@@ -26,7 +35,7 @@ class Controller:
                 write_timeout=write_timeout,
             )
         except serial.SerialException:
-            print("Could not open port %s" % port)
+            print("Could not open port {port}.")
             # TODO: nicer/more logical shutdown (this kills the entire app?)
             sys.exit()
 
@@ -35,7 +44,7 @@ class Controller:
 
         if self.s.is_open:
             if self.debug:
-                print("Controller on port {}: Connection established!".format(port))
+                print(f"Controller on port {port}: Connection established!")
 
     def __enter__(self):
         return self
@@ -44,6 +53,7 @@ class Controller:
         self.close()
 
     def read_response(self):
+        """Reads the response from the controller."""
         response = self.s.read_until(b"\r\n")  # Waiting until response read
 
         if self.debug:
@@ -63,6 +73,7 @@ class Controller:
         return status
 
     def send_instruction(self, instruction, address="0", message=None):
+        """Sends an instruction to the controller. Expects a response which is returned."""
         # Encode inputs
         addr = address.encode("utf-8")
         inst = instruction  # .encode('utf-8') # Already encoded
@@ -87,6 +98,7 @@ class Controller:
         return response
 
     def close(self):
+        """Closes the serial connection."""
         if self.s.is_open:
             self.s.close()
             print("Connection is closed!")

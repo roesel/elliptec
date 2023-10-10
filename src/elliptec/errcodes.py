@@ -1,3 +1,6 @@
+"""Error codes for the Elliptec devices."""
+
+
 error_codes = {
     "0": "Status OK",
     "1": "Communication Timeout",

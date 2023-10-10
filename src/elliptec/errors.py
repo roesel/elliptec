@@ -1,2 +1,5 @@
+"""Custom-defined errors."""
+
+
 class ExternalDeviceNotFound(IOError):
-    pass
+    """Raised when a device is not found on the controller."""

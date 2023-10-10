@@ -1,8 +1,12 @@
+"""Module for shutter. Inherits from elliptec.Motor."""
+
 from .devices import devices
 from . import Motor
 
 
 class Shutter(Motor):
+    """Class for shutter objects, typically two-position linear sliders. Inherits from elliptec.Motor."""
+
     def __init__(self, controller, address="0", debug=True, inverted=False):
         # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
         super().__init__(controller=controller, address=address, debug=debug)
@@ -32,6 +36,7 @@ class Shutter(Motor):
             return None
 
     def jog(self, direction="forward"):
+        """Jogs by the jog distance in a particular direction."""
         if direction in ["backward", "forward"]:
             status = self.move(direction)
             slot = self.extract_slot_from_status(status)
@@ -59,12 +64,14 @@ class Shutter(Motor):
             return self.set_slot(2)
 
     def is_open(self):
+        """Returns True if shutter is open, False if closed."""
         if not self.inverted:
             return self.get_slot() == 2
         else:
             return self.get_slot() == 1
 
     def is_closed(self):
+        """Returns True if shutter is closed, False if open."""
         if not self.inverted:
             return self.get_slot() == 1
         else:
@@ -72,6 +79,7 @@ class Shutter(Motor):
 
     # Helper functions
     def extract_slot_from_status(self, status):
+        """Extracts slot from status."""
         # If status is telling us current position
         if status:
             if status[1] == "PO":
@@ -82,12 +90,14 @@ class Shutter(Motor):
         return None
 
     def pos_to_slot(self, posval):
+        """Converts position value to slot number."""
         slots = devices[self.motor_type]["slots"]
         factor = self.range / (slots - 1)
         slot = int(posval / factor) + 1
         return slot
 
     def slot_to_pos(self, slot):
+        """Converts slot number to position value."""
         slots = devices[self.motor_type]["slots"]
         factor = self.range / (slots - 1)
         position = int((slot - 1) * factor)
