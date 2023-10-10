@@ -19,7 +19,7 @@ def parse(msg, debug=True):
     msg = msg.decode().strip()
     code = msg[1:3]
     try:
-        addr_int = int(msg[0], 16)
+        _ = int(msg[0], 16)
     except ValueError:
         raise ValueError("Invalid Address: %s" % msg[0])
     addr = msg[0]
