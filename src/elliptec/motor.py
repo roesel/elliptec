@@ -125,6 +125,6 @@ class Motor:
             string += key + " - " + str(self.info[key]) + "\n"
         return string
 
-    def close(self):
+    def close_connection(self):
         """Closes the serial port."""
         self.controller.close()
