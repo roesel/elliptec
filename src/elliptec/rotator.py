@@ -3,7 +3,7 @@ from . import Motor
 
 
 class Rotator(Motor):
-    """Class for rotation mount (ELL14) or rotary stage (ELL18)"""
+    """Class for rotation mounts such as a rotating mount (ELL14) or rotary stage (ELL18)."""
 
     # TODO: Merge this class with Linear() via common ancestor
 
