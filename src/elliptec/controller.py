@@ -97,7 +97,7 @@ class Controller:
 
         return response
 
-    def close(self):
+    def close_connection(self):
         """Closes the serial connection."""
         if self.s.is_open:
             self.s.close()
