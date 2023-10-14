@@ -141,6 +141,7 @@ What works:
 
 What needs improvements:
 * documentation
+* tests
 * automated discovery of devices
 
 What is missing:
