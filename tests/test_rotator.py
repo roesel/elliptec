@@ -11,7 +11,7 @@ def test_homing():
     controller = elliptec.Controller(port)
     ro = elliptec.Rotator(controller, address=address)
     
-    # Home the rotator
+    # Home the rotator to firmware-set position
     ro.home()
 
     # See if homing moved to home offset set
