@@ -119,6 +119,7 @@ The changes made to the addresses should last until the bus loses power, at whic
 Currently (somewhat) supported devices:
 * Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - useful for polarization state generators
 * Rotation Stage (ELL18) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10459) - useful for rotating mirrors
+* Linear Stage (ELL17) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10461) - useful for motorized focusing
 * Linear Stage (ELL20) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=11736) - useful for motorized focusing
 * Dual-Position Slider (ELL6) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a shutter
 * Four-Position Slider (ELL9) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a filter wheel
