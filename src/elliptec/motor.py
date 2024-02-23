@@ -127,4 +127,4 @@ class Motor:
 
     def close_connection(self):
         """Closes the serial port."""
-        self.controller.close()
+        self.controller.close_connection()

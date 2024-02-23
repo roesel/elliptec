@@ -24,6 +24,16 @@ devices = {
         "commands": ["info", "status", "position", "home", "forward", "backward", "stepsize", "home_offset"],
         "todo": ["open", "close", "disconnect", "isolate", "set_f_fwd", "set_f_bck", "fix_freqs", "search_freqs"],
     },
+    
+    15: {
+        "name": "ELL15",
+        "description": "Motorized Iris",
+        "min_aperture": 1,
+        "max_aperture": 11.5,
+        "commands": ["info", "status", "position", "home", "forward", "backward", "stepsize", "home_offset"],
+        "todo": ["open", "close", "disconnect", "isolate", "set_f_fwd", "set_f_bck", "fix_freqs", "search_freqs"],
+    },
+    
     18: {
         "name": "ELL18",
         "description": "Rotation Stage",
