@@ -117,18 +117,18 @@ The changes made to the addresses should last until the bus loses power, at whic
 
 ## List of supported devices
 Currently (somewhat) supported devices:
-* Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - useful for polarization state generators
-* Rotation Stage (ELL18) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10459) - useful for rotating mirrors
-* Linear Stage (ELL17) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10461) - useful for motorized focusing
-* Linear Stage (ELL20) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=11736) - useful for motorized focusing
 * Dual-Position Slider (ELL6) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a shutter
 * Four-Position Slider (ELL9) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a filter wheel
+* Rotation Mount (ELL14) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=12829) - useful for polarization state generators
+* Motorized Iris (ELL15) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=15837) - useful for aperture control
+* Linear Stage (ELL17) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10461) - useful for motorized focusing
+* Rotation Stage (ELL18) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10459) - useful for rotating mirrors
+* Linear Stage (ELL20) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=11736) - useful for motorized focusing
 
 As of right now, I do not have access to any other devices from the Elliptec&trade; family. If you are interested in controlling a device that is not on this list, feel free to reach out to me. Thank you to Thorlabs Inc. for providing me with some of the devices above for testing.
 
 ## Untested (but possibly working) devices
 These devices have never been tested with this library, but could potentially work with some minor code changes, since they share a design with one of the *somewhat supported* ones:
-* Linear Stage (ELL17) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=10461) - useful for motorized focusing
 * Six-Position Slider (ELL12) - [Thorlabs product page](https://www.thorlabs.com/newgrouppage9.cfm?objectgroup_id=9464) - useful as a filter wheel
 
 The same could possibly extend to the discontinued/obsolete devices such as the ELL7, ELL8, and ELL10.
