@@ -16,6 +16,7 @@ from .shutter import Shutter
 from .slider import Slider
 from .rotator import Rotator
 from .linear import Linear
+from .iris import Iris
 
 __all__ = [
     "commands",
@@ -27,6 +28,7 @@ __all__ = [
     "Slider",
     "Rotator",
     "Linear",
+    "Iris",
     "find_ports",
     "scan_for_devices",
     "is_null_or_empty",
