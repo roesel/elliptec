@@ -128,7 +128,7 @@ class Motor:
 
     def save_user_data(self):
         """Saves the user data to the motor."""
-        status = self.do("save_user_data")
+        self.do("save_user_data")
 
     # TODO: To be implemented
     # set_forward_frequency(self, motor)
