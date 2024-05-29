@@ -1,5 +1,5 @@
 """A module that contains the Motor class, which is the base class for all motors."""
-from .cmd import get_, set_, mov_
+from .cmd import get_, set_, mov_, do_
 from .tools import error_check, move_check
 from .errors import ExternalDeviceNotFound
 
@@ -92,6 +92,21 @@ class Motor:
             error_check(status)  # TODO: make it return success as boolean?
 
         return status
+    
+    def do(self, req=""):
+        """Generates do instructions from commands."""
+        # Try to translate command to instruction
+        if req in do_:
+            instruction = do_[req]
+        else:
+            print(f"Invalid Command: {req}")
+            return None
+
+        status = self.send_instruction(instruction)
+        if self.debug:
+            error_check(status)  # TODO: make it return success as boolean?
+
+        return status
 
     # Wrapper functions
     def home(self, clockwise="True"):
@@ -110,6 +125,10 @@ class Motor:
             self.address = new_address
             if self.debug:
                 print(f"Address successfully changed from {old_address} to {new_address}.")
+
+    def save_user_data(self):
+        """Saves the user data to the motor."""
+        status = self.do("save_user_data")
 
     # TODO: To be implemented
     # set_forward_frequency(self, motor)
