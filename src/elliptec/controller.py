@@ -4,26 +4,34 @@ import sys
 
 class Controller():
 
-    def __init__(self, port, baudrate=9600, bytesize=8, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=2, write_timeout=0.5, debug=True):
-        try:
-            self.s = serial.Serial(port, baudrate=baudrate, bytesize=bytesize, parity=parity, stopbits=stopbits, timeout=timeout, write_timeout=write_timeout)
-        except serial.SerialException:
-            print('Could not open port %s' % port)
-            # TODO: nicer/more logical shutdown (this kills the entire app?)
-            sys.exit()
-
-        self.debug = debug
-        self.port = port
-
-        if self.s.is_open:
-            if self.debug:
-                print('Controller on port {}: Connection established!'.format(port))
+    def __init__(self, port = None, baudrate=9600, bytesize=8, parity=serial.PARITY_NONE, stopbits=serial.STOPBITS_ONE, timeout=2, write_timeout=0.5, debug=True):
+        if port == None: 
+            self.__search_and_connect(baudrate, bytesize, parity, stopbits, timeout, write_timeout)
+        else: 
+            self.__connect_to_port(port, baudrate, bytesize, parity, stopbits, timeout, write_timeout)
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self.close()
+        
+    def __connect_to_port(self, port, baudrate, bytesize, parity, stopbits, timeout, write_timeout):
+        try:
+            self.s = serial.Serial(port, baudrate=baudrate, bytesize=bytesize, parity=parity, stopbits=stopbits, timeout=timeout, write_timeout=write_timeout)
+        except serial.SerialException:
+            print('Could not open port %s' % port)
+            self.s.close()
+            
+        if self.s.is_open:
+            if self.debug:
+                print('Controller on port {}: Connection established!'.format(port))
+        
+    def __search_and_connect(self, baudrate, bytesize, parity, stopbits, timeout, write_timeout):
+        port_list = serial.tools.list_ports.comports()
+        for port in port_list:
+            self.__connect_to_port(port, baudrate, bytesize, parity, stopbits, timeout, write_timeout)
+            break
 
     def read_response(self):
         response = self.s.read_until(b'\r\n') # Waiting until response read
@@ -72,3 +80,7 @@ class Controller():
         if self.s.is_open:
             self.s.close()
             print("Connection is closed!")
+
+#%%
+if __name__ == '__main__':
+    pass
