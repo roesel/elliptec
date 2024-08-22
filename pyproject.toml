@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "elliptec"
-version = "0.0.3"
+version = "0.0.5"
 authors = [
   { name="David Roesel", email="roesel@gmail.com" },
 ]
@@ -26,3 +26,13 @@ dependencies = [
 "Homepage" = "https://github.com/roesel/elliptec"
 "Documentation" = "https://elliptec.readthedocs.io"
 "Bug Tracker" = "https://github.com/roesel/elliptec/issues"
+
+[tool.ruff]
+# Allow lines to be as long as 119 characters.
+line-length = 119
+# Ignore errors of unused module imports in __init__.py
+ignore-init-module-imports = true
+
+[tool.black]
+# Allow lines to be as long as 119 characters.
+line-length = 119
