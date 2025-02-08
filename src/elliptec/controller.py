@@ -22,6 +22,7 @@ class Controller:
                  timeout=2, 
                  write_timeout=0.5, 
                  debug=True):
+        self.debug = debug
         if port == None: 
             self.__search_and_connect(baudrate, 
                                       bytesize, 
