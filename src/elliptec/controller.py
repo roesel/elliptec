@@ -1,6 +1,5 @@
 """This module contains the Controller class, which is the base class for all devices."""
 
-import sys
 import serial
 from .tools import parse
 
@@ -24,7 +23,7 @@ class Controller:
                  debug=True):
         self.debug = debug
         self.port = port  # Store the port parameter as an instance variable
-        if port == None: 
+        if port is None: 
             self.__search_and_connect(baudrate, 
                                       bytesize, 
                                       parity, 
