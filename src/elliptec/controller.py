@@ -23,6 +23,7 @@ class Controller:
                  write_timeout=0.5, 
                  debug=True):
         self.debug = debug
+        self.port = port  # Store the port parameter as an instance variable
         if port == None: 
             self.__search_and_connect(baudrate, 
                                       bytesize, 
@@ -79,7 +80,8 @@ class Controller:
                              write_timeout):
         port_list = serial.tools.list_ports.comports()
         for port in port_list:
-            self.__connect_to_port(port, 
+            self.port = port
+            self.__connect_to_port(self.port, 
                                    baudrate, 
                                    bytesize, 
                                    parity, 
@@ -87,12 +89,6 @@ class Controller:
                                    timeout, 
                                    write_timeout)
             break
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
 
     def read_response(self):
         """Reads the response from the controller."""
