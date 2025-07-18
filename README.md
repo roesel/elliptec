@@ -84,36 +84,48 @@ for distance in range(0, 61, 10):
 ```
 
 ## Advanced examples
-Controlling multiple devices through one ELB bus. The example assumes you have a shutter and a rotator on addresses 1 and 2 respectively, and shows how to take two images in perpendicular polarizations:
+
+### Multiple devices
+
+Controlling multiple devices through one ELLB bus is possible. This requires some setup, first. By default, every device has an address of "0", so plugging in multiple devices all have the same address, leading to undefined behavior. In these examples, we'll assume you are combining a shutter and a rotator. First you need to change the addresses of each device independently. This can be done through the [Elliptec&trade; Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL), or over serial. For the serial assignment, unplug all but one device
+
 ```python
 import elliptec
+# connect to shutter
 controller = elliptec.Controller('COM4')
-sh = elliptec.Shutter(controller, address='1')
-ro = elliptec.Rotator(controller, address='2')
-# Home the shutter and the rotator
-sh.home() 
-ro.home()
-# Loop over a list of angles and opne/acquire/close for each
-for angle in [0, 90]:
-    ro.set_angle(angle)
-    # Open shutter, acquire, and close again
-    sh.open()
-    # ... acquire or perform other tasks
-    sh.close()
+shutter = elliptec.Shutter(controller)
+# change address and save
+shutter.change_address("1")
+shutter.save_user_data()
+```
+now, plug in the second device
+```python
+# connect to rotator
+rotator = elliptec.Rotator(controller)
+rotator.change_address("2")
+rotator.save_user_data()
 ```
 
-If you haven't changed the addresses of your boards, you can either do so through the [Elliptec&trade; Software](https://www.thorlabs.com/software_pages/ViewSoftwarePage.cfm?Code=ELL), or by connecting them one-by-one to the bus and using the `change_address()` function of a device. Assuming a `PC -> controller -> bus` connecion, the setup would look something like this:
+Note, if you do not `save_user_data` the device address will be lost when the device loses power, requiring you to perform these address changes again, which requires plugging the devices in one-by-one, again.
+
+Once the devices have been addressed, you can access them and use them by specifying their address when connecting:
 ```python
 import elliptec
+# connect to devices
 controller = elliptec.Controller('COM4')
-# connect your first device to the bus
-device_1 = elliptec.Motor(controller)
-device_1.change_address('1')
-# connect your second device
-device_2 = elliptec.Motor(controller)
-device_2.change_address('2')
+shutter = elliptec.Shutter(controller, address='1')
+rotator = elliptec.Rotator(controller, address='2')
+# Home the shutter and the rotator
+shutter.home() 
+rotator.home()
+# Loop over a list of angles and opne/acquire/close for each
+for angle in [0, 90]:
+    rotator.set_angle(angle)
+    # Open shutter, acquire, and close again
+    shutter.open()
+    # ... acquire or perform other tasks
+    shutter.close()
 ```
-The changes made to the addresses should last until the bus loses power, at which point all deviced might revert to the default address of 0.
 
 ## List of supported devices
 Currently (somewhat) supported devices:
