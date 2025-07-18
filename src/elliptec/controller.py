@@ -1,6 +1,5 @@
 """This module contains the Controller class, which is the base class for all devices."""
 
-import sys
 import serial
 from .tools import parse
 
@@ -23,7 +22,7 @@ class Controller:
                  write_timeout=0.5, 
                  debug=True):
         self.debug = debug
-        if port == None: 
+        if port is None: 
             self.__search_and_connect(baudrate, 
                                       bytesize, 
                                       parity, 
@@ -87,12 +86,6 @@ class Controller:
                                    timeout, 
                                    write_timeout)
             break
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
 
     def read_response(self):
         """Reads the response from the controller."""
