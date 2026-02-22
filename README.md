@@ -19,6 +19,14 @@
     ·
     <a href="https://github.com/roesel/elliptec/issues">Request a feature</a>
   </p>
+
+  <p align="center">
+    <a href="https://pypi.org/project/elliptec/"><img alt="PyPI" src="https://img.shields.io/pypi/v/elliptec"></a>
+    <a href="https://pypi.org/project/elliptec/"><img alt="Python versions" src="https://img.shields.io/pypi/pyversions/elliptec"></a>
+    <a href="https://github.com/roesel/elliptec/actions/workflows/ruff.yml"><img alt="Ruff" src="https://github.com/roesel/elliptec/actions/workflows/ruff.yml/badge.svg"></a>
+    <a href="https://elliptec.readthedocs.io/en/latest/?badge=latest"><img alt="Docs" src="https://readthedocs.org/projects/elliptec/badge/?version=latest"></a>
+    <a href="https://github.com/roesel/elliptec/blob/main/LICENSE"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPLv3-blue.svg"></a>
+  </p>
 </div>
 
 <!-- ABOUT THE PROJECT -->
@@ -118,7 +126,7 @@ rotator = elliptec.Rotator(controller, address='2')
 # Home the shutter and the rotator
 shutter.home() 
 rotator.home()
-# Loop over a list of angles and opne/acquire/close for each
+# Loop over a list of angles and open/acquire/close for each
 for angle in [0, 90]:
     rotator.set_angle(angle)
     # Open shutter, acquire, and close again
@@ -169,7 +177,7 @@ Some of the missing functionality can be performed using the official [Elliptec&
 ## Support
 If you are going to use this code in any way, **please let me know** via [email](mailto:roesel@gmail.com)/[twitter](https://twitter.com/DavidRoesel)/[issues](https://github.com/roesel/elliptec/issues) or find my contact info on [my website](https://david.roesel.cz/en/). I am working on this project in my spare time and need every piece of encouragement I can get! If this project was useful to you, please consider buying me a coffee ;).
 
-<a href='https://ko-fi.com/roesel' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' />
+<a href='https://ko-fi.com/roesel' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 ## Disclaimer
 Thorlabs&trade; and Elliptec&trade; are registered trademarks of Thorlabs,&nbsp;Inc. This project is fully non-commercial and not affiliated with Thorlabs,&nbsp;Inc. in any capacity. 

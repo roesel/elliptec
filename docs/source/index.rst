@@ -87,7 +87,7 @@ An advanced example, which shows how to control multiple devices plugged into on
    # Home the shutter and the rotator
    sh.home() 
    ro.home()
-   # Loop over a list of angles and opne/acquire/close for each
+   # Loop over a list of angles and open/acquire/close for each
    for angle in [0, 90]:
        ro.set_angle(angle)
        # Open shutter, acquire, and close again
