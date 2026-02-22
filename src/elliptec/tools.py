@@ -1,18 +1,27 @@
 """Miscellaneous helper functions for the elliptec package."""
+from __future__ import annotations
+
+import logging
+
 from .errcodes import error_codes
 
+logger = logging.getLogger(__name__)
 
-def is_null_or_empty(msg):
+# A parsed status is either a dict (for info responses) or a tuple of (address, code, value).
+Status = dict[str, object] | tuple[str, str, int | str]
+
+
+def is_null_or_empty(msg: bytes) -> bool:
     """Checks if message is empty or null."""
     return not msg.endswith(b"\r\n") or len(msg) == 0
 
 
-def parse(msg, debug=True):
+def parse(msg: bytes, debug: bool = True) -> Status | None:
     """Parses the message from the controller."""
     if is_null_or_empty(msg):
         if debug:
-            print("Parse: Status/Response may be incomplete!")
-            print("Parse: Message:", msg)
+            logger.warning("Parse: Status/Response may be incomplete!")
+            logger.warning("Parse: Message: %s", msg)
         return None
     msg = msg.decode().strip()
     code = msg[1:3]
@@ -68,41 +77,41 @@ def parse(msg, debug=True):
         return (addr, code, msg[3:])
 
 
-def is_metric(num):
+def is_metric(num: str) -> str | None:
     """Checks if thread is metric or imperial."""
     return {"0": "Metric", "1": "Imperial"}.get(num)
 
 
-def s32(value):
+def s32(value: int) -> int:
     """Convert 32bit signed hex to int."""
     return -(value & 0x80000000) | (value & 0x7FFFFFFF)
 
 
-def error_check(status):
+def error_check(status: Status | None) -> None:
     """Checks if there is an error."""
     if not status:
-        print("Status is None")
+        logger.warning("Status is None")
     elif isinstance(status, dict):
-        print("Status is a dictionary.")
+        logger.warning("Status is a dictionary.")
     elif status[1] == "GS":
         if status[2] != "0":  # is there an error?
             err = error_codes[status[2]]
-            print(f"ERROR: {err}")
+            logger.error("ERROR: %s", err)
         else:
-            print("Status OK")
+            logger.debug("Status OK")
     elif status[1] == "PO":
-        print("Status OK (position)")
+        logger.debug("Status OK (position)")
     else:
-        print("Other status:", status)
+        logger.warning("Other status: %s", status)
 
 
-def move_check(status):
+def move_check(status: Status | None) -> None:
     """Checks if the move was successful."""
     if not status:
-        print("Status is None")
+        logger.warning("Status is None")
     elif status[1] == "GS":
         error_check(status)
     elif (status[1] == "PO") or (status[1] == "BO"):
-        print("Move Successful.")
+        logger.debug("Move Successful.")
     else:
-        print(f"Unknown response code {status[1]}")
+        logger.warning("Unknown response code %s", status[1])
