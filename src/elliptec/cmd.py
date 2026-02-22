@@ -33,8 +33,3 @@ do_ = {
 def commands():
     """Returns a dictionary of commands that the devices can accept."""
     return {"get": get_, "set": set_, "move": mov_, "do": do_}
-
-
-if __name__ == "__main__":
-    cmds = commands()
-    print(cmds)

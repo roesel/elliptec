@@ -7,7 +7,6 @@ class Slider(Motor):
     """Slider class for elliptec devices. Inherits from elliptec.Motor."""
 
     def __init__(self, controller, address="0", debug=True):
-        # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
         super().__init__(controller=controller, address=address, debug=debug)
 
     ## Setting and getting slots
@@ -20,7 +19,7 @@ class Slider(Motor):
     def set_slot(self, slot):
         """Moves the slider to a particular slot."""
         position = self.slot_to_pos(slot)
-        status = self.move("absolute", (position))
+        status = self.move("absolute", position)
         slot = self.extract_slot_from_status(status)
         return slot
 
@@ -59,5 +58,5 @@ class Slider(Motor):
         """Converts slot number to position value."""
         positions = devices[self.motor_type]["positions"]
         # If slot within range
-        if slot - 1 in list(range(len(positions))):
+        if 0 <= slot - 1 < len(positions):
             return positions[slot - 1]

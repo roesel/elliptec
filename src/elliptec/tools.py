@@ -4,10 +4,7 @@ from .errcodes import error_codes
 
 def is_null_or_empty(msg):
     """Checks if message is empty or null."""
-    if not msg.endswith(b"\r\n") or (len(msg) == 0):
-        return True
-    else:
-        return False
+    return not msg.endswith(b"\r\n") or len(msg) == 0
 
 
 def parse(msg, debug=True):
@@ -73,14 +70,7 @@ def parse(msg, debug=True):
 
 def is_metric(num):
     """Checks if thread is metric or imperial."""
-    if num == "0":
-        thread_type = "Metric"
-    elif num == "1":
-        thread_type = "Imperial"
-    else:
-        thread_type = None
-
-    return thread_type
+    return {"0": "Metric", "1": "Imperial"}.get(num)
 
 
 def s32(value):
