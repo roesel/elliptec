@@ -1,7 +1,13 @@
 """This module contains the Controller class, which is the base class for all devices."""
+from __future__ import annotations
+
+import logging
+from types import TracebackType
 
 import serial
-from .tools import parse
+from .tools import Status, parse
+
+logger = logging.getLogger(__name__)
 
 
 class Controller:
@@ -9,19 +15,19 @@ class Controller:
     subclasses are implemented for each device type."""
 
     def __init__(self,
-                 port = None,
-                 baudrate=9600,
-                 bytesize=8,
-                 parity=serial.PARITY_NONE,
-                 stopbits=serial.STOPBITS_ONE,
-                 timeout=2,
-                 write_timeout=0.5,
-                 debug=True):
+                 port: str | None = None,
+                 baudrate: int = 9600,
+                 bytesize: int = 8,
+                 parity: str = serial.PARITY_NONE,
+                 stopbits: float = serial.STOPBITS_ONE,
+                 timeout: float = 2,
+                 write_timeout: float = 0.5,
+                 debug: bool = True) -> None:
         self.debug = debug
-        self.port = None
-        self.last_position = None
-        self.last_response = None
-        self.last_status = None
+        self.port: str | None = None
+        self.last_position: int | str | None = None
+        self.last_response: bytes | None = None
+        self.last_status: Status | None = None
 
         if port is None:
             self.__search_and_connect(baudrate,
@@ -39,20 +45,20 @@ class Controller:
                                    timeout,
                                    write_timeout)
 
-    def __enter__(self):
+    def __enter__(self) -> Controller:
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: TracebackType | None) -> None:
         self.close_connection()
 
     def __connect_to_port(self,
-                          port,
-                          baudrate,
-                          bytesize,
-                          parity,
-                          stopbits,
-                          timeout,
-                          write_timeout):
+                          port: str,
+                          baudrate: int,
+                          bytesize: int,
+                          parity: str,
+                          stopbits: float,
+                          timeout: float,
+                          write_timeout: float) -> None:
         try:
             self.s = serial.Serial(port,
                                    baudrate=baudrate,
@@ -62,20 +68,20 @@ class Controller:
                                    timeout=timeout,
                                    write_timeout=write_timeout)
         except serial.SerialException:
-            print('Could not open port %s' % port)
+            logger.error("Could not open port %s", port)
             return
 
         self.port = port
         if self.s.is_open and self.debug:
-            print('Controller on port {}: Connection established!'.format(port))
+            logger.debug("Controller on port %s: Connection established!", port)
 
     def __search_and_connect(self,
-                             baudrate,
-                             bytesize,
-                             parity,
-                             stopbits,
-                             timeout,
-                             write_timeout):
+                             baudrate: int,
+                             bytesize: int,
+                             parity: str,
+                             stopbits: float,
+                             timeout: float,
+                             write_timeout: float) -> None:
         port_list = serial.tools.list_ports.comports()
         for port in port_list:
             self.__connect_to_port(port,
@@ -87,12 +93,12 @@ class Controller:
                                    write_timeout)
             break
 
-    def read_response(self):
+    def read_response(self) -> Status | None:
         """Reads the response from the controller."""
         response = self.s.read_until(b"\r\n")  # Waiting until response read
 
         if self.debug:
-            print("RX:", response)
+            logger.debug("RX: %s", response)
 
         status = parse(response, debug=self.debug)
 
@@ -106,7 +112,7 @@ class Controller:
 
         return status
 
-    def send_instruction(self, instruction, address="0", message=None):
+    def send_instruction(self, instruction: bytes, address: str = "0", message: int | str | None = None) -> Status | None:
         """Sends an instruction to the controller. Expects a response which is returned."""
         # Encode inputs
         addr = address.encode("utf-8")
@@ -124,15 +130,15 @@ class Controller:
             command += mesg.encode("utf-8")
 
         if self.debug:
-            print("TX:", command)
+            logger.debug("TX: %s", command)
         # Execute the command and wait for a response
         self.s.write(command)  # This actually executes the command
         response = self.read_response()
 
         return response
 
-    def close_connection(self):
+    def close_connection(self) -> None:
         """Closes the serial connection."""
         if self.s.is_open:
             self.s.close()
-            print("Connection is closed!")
+            logger.debug("Connection is closed!")
