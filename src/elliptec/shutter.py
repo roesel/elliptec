@@ -8,7 +8,6 @@ class Shutter(Motor):
     """Class for shutter objects, typically two-position linear sliders. Inherits from elliptec.Motor."""
 
     def __init__(self, controller, address="0", debug=True, inverted=False):
-        # Patch parent object - elliptec.Motor(port, baud, bytesize, parity)
         super().__init__(controller=controller, address=address, debug=debug)
         self.inverted = inverted
 
@@ -49,33 +48,21 @@ class Shutter(Motor):
         """Opens the shutter. Actual position depends on whether or not inverted=True is
         passed to the shutter at creation.
         """
-        if not self.inverted:
-            return self.set_slot(2)
-        else:
-            return self.set_slot(1)
+        return self.set_slot(1 if self.inverted else 2)
 
     def close(self):
         """Closes the shutter. Actual position depends on whether or not inverted=True is
         passed to the shutter at creation.
         """
-        if not self.inverted:
-            return self.set_slot(1)
-        else:
-            return self.set_slot(2)
+        return self.set_slot(2 if self.inverted else 1)
 
     def is_open(self):
         """Returns True if shutter is open, False if closed."""
-        if not self.inverted:
-            return self.get_slot() == 2
-        else:
-            return self.get_slot() == 1
+        return self.get_slot() == (1 if self.inverted else 2)
 
     def is_closed(self):
         """Returns True if shutter is closed, False if open."""
-        if not self.inverted:
-            return self.get_slot() == 1
-        else:
-            return self.get_slot() == 2
+        return self.get_slot() == (2 if self.inverted else 1)
 
     # Helper functions
     def extract_slot_from_status(self, status):

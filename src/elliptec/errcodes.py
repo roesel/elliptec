@@ -17,6 +17,3 @@ error_codes = {
     "12": "Out of Range",
     "13": "Over Current Error",
 }
-
-if __name__ == "__main__":
-    print(error_codes)

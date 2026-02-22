@@ -10,6 +10,7 @@ from .controller import Controller
 
 # General class for all motors
 from .motor import Motor
+from .continuous import ContinuousMotor
 
 # Individual device implementations
 from .shutter import Shutter
@@ -24,6 +25,7 @@ __all__ = [
     "ExternalDeviceNotFound",
     "Controller",
     "Motor",
+    "ContinuousMotor",
     "Shutter",
     "Slider",
     "Rotator",

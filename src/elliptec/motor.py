@@ -40,6 +40,16 @@ class Motor:
         return response
 
     # Action functions
+    def _execute(self, command_dict, req, data=None, check_fn=error_check):
+        """Looks up and executes a command from the given dictionary."""
+        if req not in command_dict:
+            print(f"Invalid Command: {req}")
+            return None
+        status = self.send_instruction(command_dict[req], message=data)
+        if self.debug:
+            check_fn(status)
+        return status
+
     def move(self, req="home", data=""):
         """Wrapper function to easily enable access to movement.
         Expects:
@@ -47,11 +57,11 @@ class Motor:
         data - Parameters to be sent after address and request
         """
         # Try to translate command to instruction
-        if req in mov_:
-            instruction = mov_[req]
-        else:
+        if req not in mov_:
             print(f"Invalid Command: {req}")
             return False
+
+        instruction = mov_[req]
 
         # Add '0' to end of 'home' instruction
         # I don't want to do it systematically, since at least fw and bw don't have it
@@ -60,61 +70,28 @@ class Motor:
 
         status = self.send_instruction(instruction, message=data)
         if self.debug:
-            move_check(status)  # TODO: make it return success as boolean?
+            move_check(status)
         return status
 
     def get(self, req="status", data=""):
         """Generates get instructions from commands."""
-        # Try to translate command to instruction
-        if req in get_:
-            instruction = get_[req]
-        else:
-            print(f"Invalid Command: {req}")
-            return None
-
-        status = self.send_instruction(instruction, message=data)
-        if self.debug:
-            error_check(status)  # TODO: make it return success as boolean?
-
-        return status
+        return self._execute(get_, req, data=data)
 
     def set(self, req="", data=""):
         """Generates set instructions from commands."""
-        # Try to translate command to instruction
-        if req in set_:
-            instruction = set_[req]
-        else:
-            print(f"Invalid Command: {req}")
-            return None
+        return self._execute(set_, req, data=data)
 
-        status = self.send_instruction(instruction, message=data)
-        if self.debug:
-            error_check(status)  # TODO: make it return success as boolean?
-
-        return status
-    
     def do(self, req=""):
         """Generates do instructions from commands."""
-        # Try to translate command to instruction
-        if req in do_:
-            instruction = do_[req]
-        else:
-            print(f"Invalid Command: {req}")
-            return None
-
-        status = self.send_instruction(instruction)
-        if self.debug:
-            error_check(status)  # TODO: make it return success as boolean?
-
-        return status
+        return self._execute(do_, req)
 
     # Wrapper functions
-    def home(self, clockwise="True"):
+    def home(self, clockwise=True):
         """Wrapper function to easily enable access to homing."""
         if clockwise:
-            self.move("home_clockwise")
+            return self.move("home_clockwise")
         else:
-            self.move("home_anticlockwise")
+            return self.move("home_anticlockwise")
 
     def change_address(self, new_address):
         """Changes the address of the motor."""
@@ -139,10 +116,7 @@ class Motor:
     ## Private methods
     def __str__(self):
         """Returns a string representation of the motor."""
-        string = ""
-        for key in self.info:
-            string += key + " - " + str(self.info[key]) + "\n"
-        return string
+        return "".join(f"{key} - {self.info[key]}\n" for key in self.info)
 
     def close_connection(self):
         """Closes the serial port."""

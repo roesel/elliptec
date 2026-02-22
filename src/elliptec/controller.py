@@ -8,82 +8,82 @@ class Controller:
     """Class for controlling the Elliptec devices via serial port. This is a general class,
     subclasses are implemented for each device type."""
 
-    last_position = None
-    last_response = None
-    last_status = None
-
-    def __init__(self, 
-                 port = None, 
-                 baudrate=9600, 
-                 bytesize=8, 
-                 parity=serial.PARITY_NONE, 
-                 stopbits=serial.STOPBITS_ONE, 
-                 timeout=2, 
-                 write_timeout=0.5, 
+    def __init__(self,
+                 port = None,
+                 baudrate=9600,
+                 bytesize=8,
+                 parity=serial.PARITY_NONE,
+                 stopbits=serial.STOPBITS_ONE,
+                 timeout=2,
+                 write_timeout=0.5,
                  debug=True):
         self.debug = debug
-        if port is None: 
-            self.__search_and_connect(baudrate, 
-                                      bytesize, 
-                                      parity, 
-                                      stopbits, 
-                                      timeout, 
+        self.port = None
+        self.last_position = None
+        self.last_response = None
+        self.last_status = None
+
+        if port is None:
+            self.__search_and_connect(baudrate,
+                                      bytesize,
+                                      parity,
+                                      stopbits,
+                                      timeout,
                                       write_timeout)
-        else: 
-            self.__connect_to_port(port, 
-                                   baudrate, 
-                                   bytesize, 
-                                   parity, 
-                                   stopbits, 
-                                   timeout, 
+        else:
+            self.__connect_to_port(port,
+                                   baudrate,
+                                   bytesize,
+                                   parity,
+                                   stopbits,
+                                   timeout,
                                    write_timeout)
 
     def __enter__(self):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        self.close()
-        
-    def __connect_to_port(self, 
-                          port, 
-                          baudrate, 
-                          bytesize, 
-                          parity, 
-                          stopbits, 
-                          timeout, 
+        self.close_connection()
+
+    def __connect_to_port(self,
+                          port,
+                          baudrate,
+                          bytesize,
+                          parity,
+                          stopbits,
+                          timeout,
                           write_timeout):
         try:
-            self.s = serial.Serial(port, 
-                                   baudrate=baudrate, 
-                                   bytesize=bytesize, 
-                                   parity=parity, 
-                                   stopbits=stopbits, 
-                                   timeout=timeout, 
+            self.s = serial.Serial(port,
+                                   baudrate=baudrate,
+                                   bytesize=bytesize,
+                                   parity=parity,
+                                   stopbits=stopbits,
+                                   timeout=timeout,
                                    write_timeout=write_timeout)
-            
         except serial.SerialException:
             print('Could not open port %s' % port)
-            self.s.close()
-            
-        if self.s.is_open:
-            if self.debug:
-                print('Controller on port {}: Connection established!'.format(port))
-        
-    def __search_and_connect(self, 
-                             baudrate, 
-                             bytesize, 
-                             parity, 
-                             stopbits, 
-                             timeout, 
+            return
+
+        self.port = port
+        if self.s.is_open and self.debug:
+            print('Controller on port {}: Connection established!'.format(port))
+
+    def __search_and_connect(self,
+                             baudrate,
+                             bytesize,
+                             parity,
+                             stopbits,
+                             timeout,
                              write_timeout):
         port_list = serial.tools.list_ports.comports()
         for port in port_list:
-            self.__connect_to_port(port, 
-                                   baudrate, 
-                                   bytesize, 
-                                   parity, 
-                                   stopbits, 
-                                   timeout, 
+            self.__connect_to_port(port,
+                                   baudrate,
+                                   bytesize,
+                                   parity,
+                                   stopbits,
+                                   timeout,
                                    write_timeout)
             break
 
@@ -99,11 +99,10 @@ class Controller:
         # Setting properties of last response/status/position
         self.last_response = response
         self.last_status = status
-        # print('STATUS:', status)
         if status is not None:
             if not isinstance(status, dict):
                 if status[1] == "PO":
-                    self.last_position = status[1]
+                    self.last_position = status[2]
 
         return status
 
