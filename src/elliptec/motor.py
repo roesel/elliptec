@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+from abc import ABC
 from collections.abc import Callable
 
 from .cmd import get_, set_, mov_, do_
@@ -12,7 +13,7 @@ from .errors import ExternalDeviceNotFound
 logger = logging.getLogger(__name__)
 
 
-class Motor:
+class Motor(ABC):
     """A class that represents a general motor. Each device inherits from this class."""
 
     def __init__(self, controller: Controller, address: str = "0", debug: bool = True) -> None:

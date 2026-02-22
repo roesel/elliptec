@@ -1,6 +1,8 @@
 """Base class for continuous-position motors (rotators, linear stages, irises)."""
 from __future__ import annotations
 
+from abc import abstractmethod
+
 from .motor import Motor
 from .tools import Status
 
@@ -13,11 +15,13 @@ class ContinuousMotor(Motor):
         _unit_to_pos(value) -> int: Convert user unit to pulse position
     """
 
+    @abstractmethod
     def _pos_to_unit(self, position: int) -> float:
-        raise NotImplementedError
+        ...
 
+    @abstractmethod
     def _unit_to_pos(self, value: float) -> int:
-        raise NotImplementedError
+        ...
 
     def _get_unit(self) -> float | None:
         """Gets the current position in user units."""
