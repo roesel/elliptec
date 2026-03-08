@@ -1,5 +1,10 @@
 comment: false
 
+codecov:
+  notify:
+    after_n_builds: 1
+    wait_for_ci: false
+
 coverage:
   status:
     project:
@@ -9,15 +14,5 @@ coverage:
       default:
         target: auto
 
-notify:
-  after_n_builds: 1
-  wait_for_ci: false
-
 github_checks:
   annotations: false
-
-slack:
-  default: false
-
-email:
-  default: false
