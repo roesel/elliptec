@@ -22,6 +22,12 @@ dependencies = [
     "pyserial",
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+
 [project.urls]
 "Homepage" = "https://github.com/roesel/elliptec"
 "Documentation" = "https://elliptec.readthedocs.io"
