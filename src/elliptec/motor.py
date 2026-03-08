@@ -72,11 +72,6 @@ class Motor(ABC):
 
         instruction = mov_[req]
 
-        # Add '0' to end of 'home' instruction
-        # I don't want to do it systematically, since at least fw and bw don't have it
-        if instruction == b"ho":
-            instruction = b"ho0"
-
         status = self.send_instruction(instruction, message=data)
         if self.debug:
             move_check(status)
