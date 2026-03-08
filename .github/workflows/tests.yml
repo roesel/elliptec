@@ -21,7 +21,7 @@ jobs:
           pip install -e .
       - name: Run tests with coverage
         run: |
-          pytest --cov=elliptec --cov-report=xml -q
+          pytest -m "not hardware" --cov=elliptec --cov-report=xml -q
       - name: Upload coverage to Codecov
         if: matrix.python-version == '3.12'
         uses: codecov/codecov-action@v4

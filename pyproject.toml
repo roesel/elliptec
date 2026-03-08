@@ -27,6 +27,11 @@ dependencies = [
 "Documentation" = "https://elliptec.readthedocs.io"
 "Bug Tracker" = "https://github.com/roesel/elliptec/issues"
 
+[tool.pytest.ini_options]
+markers = [
+    "hardware: tests that require physical Elliptec hardware (deselected by default in CI)",
+]
+
 [tool.ruff]
 # Allow lines to be as long as 119 characters.
 line-length = 119
