@@ -24,6 +24,7 @@
     <a href="https://pypi.org/project/elliptec/"><img alt="PyPI" src="https://img.shields.io/pypi/v/elliptec"></a>
     <a href="https://pypi.org/project/elliptec/"><img alt="Python versions" src="https://img.shields.io/pypi/pyversions/elliptec"></a>
     <a href="https://github.com/roesel/elliptec/actions/workflows/ruff.yml"><img alt="Ruff" src="https://github.com/roesel/elliptec/actions/workflows/ruff.yml/badge.svg"></a>
+    <a href="https://codecov.io/gh/roesel/elliptec"><img alt="Coverage" src="https://codecov.io/gh/roesel/elliptec/branch/main/graph/badge.svg"></a>
     <a href="https://elliptec.readthedocs.io/en/latest/?badge=latest"><img alt="Docs" src="https://readthedocs.org/projects/elliptec/badge/?version=latest"></a>
     <a href="https://github.com/roesel/elliptec/blob/main/LICENSE"><img alt="License: GPL v3" src="https://img.shields.io/badge/License-GPLv3-blue.svg"></a>
   </p>

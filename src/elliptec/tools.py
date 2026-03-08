@@ -2,13 +2,14 @@
 from __future__ import annotations
 
 import logging
+from typing import Dict, Tuple, Union
 
 from .errcodes import error_codes
 
 logger = logging.getLogger(__name__)
 
 # A parsed status is either a dict (for info responses) or a tuple of (address, code, value).
-Status = dict[str, object] | tuple[str, str, int | str]
+Status = Union[Dict[str, object], Tuple[str, str, Union[int, str]]]
 
 
 def is_null_or_empty(msg: bytes) -> bool:

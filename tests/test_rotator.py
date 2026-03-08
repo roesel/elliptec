@@ -1,16 +1,21 @@
-from src import elliptec
+import pytest
+
+from elliptec import Controller, Rotator
 
 # Test settings (adjust based on hardware)
 port = 'COM3'
 address = '1'
 allowed_error = 0.02
 
+pytestmark = pytest.mark.hardware
+
+
 def test_homing():
     '''Test that rotator homes to the home offset set.'''
     # Create objects
-    controller = elliptec.Controller(port)
-    ro = elliptec.Rotator(controller, address=address)
-    
+    controller = Controller(port)
+    ro = Rotator(controller, address=address)
+
     # Home the rotator to firmware-set position
     ro.home()
 
@@ -20,14 +25,14 @@ def test_homing():
     # Close the connections for other tests
     controller.close_connection()
 
-    assert abs(reached_angle - home_offset) <= allowed_error, "Reached home location should equal home offset." 
+    assert abs(reached_angle - home_offset) <= allowed_error, "Reached home location should equal home offset."
 
 def test_movement():
     '''Test that rotator moves to the desired positions.'''
     # Create objects
-    controller = elliptec.Controller(port)
-    ro = elliptec.Rotator(controller, address=address)
-    
+    controller = Controller(port)
+    ro = Rotator(controller, address=address)
+
     # Home the rotator before usage
     ro.home()
 
@@ -36,6 +41,6 @@ def test_movement():
         ro.set_angle(angle)
         reached_angle = ro.get_angle()
         assert abs(reached_angle - angle) <= allowed_error, "Reached angle should equal target."
-    
+
     # Close the connection
     controller.close_connection()
