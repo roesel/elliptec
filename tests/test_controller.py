@@ -1,10 +1,7 @@
 """Tests for the Controller class with mocked serial port."""
 from __future__ import annotations
 
-import logging
 from unittest.mock import MagicMock, patch
-
-import pytest
 
 from elliptec.controller import Controller
 
@@ -86,12 +83,12 @@ class TestControllerSendInstruction:
 
     def test_send_with_string_message(self, mock_controller):
         mock_controller.s.read_until.return_value = b"0PO00000064\r\n"
-        status = mock_controller.send_instruction(b"ma", address="0", message="00000064")
+        mock_controller.send_instruction(b"ma", address="0", message="00000064")
         mock_controller.s.write.assert_called_once_with(b"0ma00000064")
 
     def test_send_with_int_message(self, mock_controller):
         mock_controller.s.read_until.return_value = b"0PO00000064\r\n"
-        status = mock_controller.send_instruction(b"ma", address="0", message=100)
+        mock_controller.send_instruction(b"ma", address="0", message=100)
         # 100 = 0x00000064
         mock_controller.s.write.assert_called_once_with(b"0ma00000064")
 
