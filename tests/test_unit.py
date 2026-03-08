@@ -114,6 +114,26 @@ class TestParse:
         result = parse(b"0ZZ12345\r\n", debug=False)
         assert result == ("0", "ZZ", "12345")
 
+    def test_parse_motor_info_i1(self):
+        # I1: addr(1) code(2) Loop(1) Motor(1) Current(4) RampUp(4) RampDown(4) FwdPer(4) BwdPer(4)
+        # Indices:  [0] [1:3]  [3]    [4]      [5:9]      [9:13]    [13:17]     [17:21]   [21:25]
+        msg = b"0I111074A010001000E140E14\r\n"
+        result = parse(msg, debug=False)
+        assert isinstance(result, dict)
+        assert result["Address"] == "0"
+        assert result["Loop"] == "1"
+        assert result["Motor"] == "1"
+        assert result["Forward period"] == 0x0E14
+        assert result["Backward period"] == 0x0E14
+        assert result["Forward frequency"] == pytest.approx(14740000 / 0x0E14)
+        assert result["Current"] == pytest.approx(int("074A", 16) / 1866)
+
+    def test_parse_motor_info_i2(self):
+        msg = b"0I211074A010001000E140E14\r\n"
+        result = parse(msg, debug=False)
+        assert isinstance(result, dict)
+        assert result["Address"] == "0"
+
 
 # ── tools.error_check / move_check ─────────────────────────────────────────
 
@@ -159,6 +179,18 @@ class TestMoveCheck:
         with caplog.at_level(logging.WARNING):
             move_check(None)
         assert "None" in caplog.text
+
+    def test_move_gs_error(self, caplog):
+        import logging
+        with caplog.at_level(logging.ERROR):
+            move_check(("0", "GS", "9"))
+        assert "Busy" in caplog.text
+
+    def test_move_unknown_code(self, caplog):
+        import logging
+        with caplog.at_level(logging.WARNING):
+            move_check(("0", "ZZ", "something"))
+        assert "Unknown" in caplog.text
 
 
 # ── cmd ────────────────────────────────────────────────────────────────────
